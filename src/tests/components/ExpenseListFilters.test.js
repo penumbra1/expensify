@@ -33,11 +33,15 @@ beforeEach(() => {
 });
 
 test("should render ExpenseListFilters with empty data correctly", () => {
+  const outsideRange = wrapper.find(DateRangePicker).prop("isOutsideRange");
+  expect(outsideRange()).toBe(false);
   expect(wrapper).toMatchSnapshot();
 });
 
 test("should render ExpenseListFilters with non-empty data correctly", () => {
   wrapper.setProps({ filters: filtersWithData });
+  const outsideRange = wrapper.find(DateRangePicker).prop("isOutsideRange");
+  expect(outsideRange()).toBe(false);
   expect(wrapper).toMatchSnapshot();
 });
 

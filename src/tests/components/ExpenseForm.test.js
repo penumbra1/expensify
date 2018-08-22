@@ -7,11 +7,15 @@ import expenses from "../fixtures/expenses";
 
 test("should render ExpenseForm with no data", () => {
   const wrapper = shallow(<ExpenseForm />);
+  const outsideRange = wrapper.find(SingleDatePicker).prop("isOutsideRange");
+  expect(outsideRange()).toBe(false);
   expect(wrapper).toMatchSnapshot();
 });
 
 test("should render ExpenseForm with given data", () => {
   const wrapper = shallow(<ExpenseForm expense={expenses[1]} />);
+  const outsideRange = wrapper.find(SingleDatePicker).prop("isOutsideRange");
+  expect(outsideRange()).toBe(false);
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -95,6 +99,13 @@ test("should set new date on date change", () => {
   const wrapper = shallow(<ExpenseForm />);
   wrapper.find(SingleDatePicker).prop("onDateChange")(now);
   expect(wrapper.state("createdAt")).toEqual(now);
+});
+
+test("should do nothing if date is discarded", () => {
+  const wrapper = shallow(<ExpenseForm />);
+  const date = wrapper.state("createdAt");
+  wrapper.find(SingleDatePicker).prop("onDateChange")();
+  expect(wrapper.state("createdAt")).toEqual(date);
 });
 
 test("should set calendarFocused on focus", () => {

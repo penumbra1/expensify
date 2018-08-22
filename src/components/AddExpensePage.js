@@ -21,12 +21,9 @@ export class AddExpensePage extends React.Component {
   }
 }
 
-// Map dispatch to an onSubmit prop
+// Map dispatch to an addExpense prop
 // to abstract it away from the component
-// and make testing easier
-const mapDispatchToProps = dispatch => ({
-  addExpense: expense => dispatch(addExpense(expense))
-});
+const mapDispatchToProps = { addExpense };
 
 export default connect(
   undefined,

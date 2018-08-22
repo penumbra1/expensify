@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import ExpenseForm from "./ExpenseForm";
+import NotFoundPage from "../components/NotFoundPage";
 import { editExpense, removeExpense } from "../actions/expenses";
 
 // Export the unconnected component as well for testing
@@ -17,25 +18,31 @@ export class EditExpensePage extends React.Component {
   };
 
   render() {
-    return (
-      <div>
-        <ExpenseForm expense={this.props.expense} onSubmit={this.onSubmit} />
-        <button onClick={this.onRemove}>Remove</button>
-      </div>
-    );
+    // Redirect to 404 page if no expense was found (URL or id incorrect)
+    if (!this.props.expense) {
+      return <NotFoundPage />;
+    }
+    return [
+      <ExpenseForm
+        expense={this.props.expense}
+        onSubmit={this.onSubmit}
+        key="form"
+      />,
+      <button onClick={this.onRemove} key="button">
+        Remove
+      </button>
+    ];
   }
 }
 
-const mapStateToProps = (state, props) => ({
+export const mapStateToProps = (state, props) => ({
   expense: state.expenses.find(expense => expense.id === props.match.params.id)
 });
 
-// Passing own props as the 2nd argument allows to reinvoke mapDispatchToProps
-// whenever the component receives new props (so that the correct expense is passed)
-const mapDispatchToProps = (dispatch, props) => ({
-  editExpense: (id, updates) => dispatch(editExpense(id, updates)),
-  removeExpense: expense => dispatch(removeExpense(expense))
-});
+const mapDispatchToProps = {
+  editExpense,
+  removeExpense
+};
 
 export default connect(
   mapStateToProps,
