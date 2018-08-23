@@ -31,4 +31,4 @@ Used the latest version of webpack and broke the config into 3 files. Thanks to 
 
 ---
 
-Switched to newer mini-css-extract-plugin: see [issue](https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/749). Separated CSS in prod only to keep hot reloading in dev.
+Switched to newer mini-css-extract-plugin: see [issue](https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/749). Separated CSS into styles.css in production but kept it in bundle.js in development for hot reloading.

@@ -18,7 +18,7 @@ module.exports = merge(common, {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "style.css"
+      filename: "styles.css"
     })
   ],
   devtool: "source-map"
