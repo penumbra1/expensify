@@ -28,3 +28,7 @@ Switched to npm
 ---
 
 Used the latest version of webpack and broke the config into 3 files. Thanks to the new automatic _DefinePlugin_, production sourcemap got much lighter (2.12Mb vs. 4.71Mb).
+
+---
+
+Switched to newer mini-css-extract-plugin: see [issue](https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/749). Separated CSS in prod only to keep hot reloading in dev.
