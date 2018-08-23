@@ -11,7 +11,7 @@
     "node": "10.9.x"
   },
   "scripts": {
-    "start": "node server.js",
+    "start": "node server/server.js",
     "build:dev": "webpack --config webpack.dev.js",
     "build:prod": "webpack --config webpack.prod.js",
     "dev-server": "webpack-dev-server --open --config webpack.dev.js",
