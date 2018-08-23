@@ -3,12 +3,20 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "Andrew Mead",
+  "contributors": [
+    "Olga Isakova"
+  ],
   "license": "MIT",
+  "engines": {
+    "node": "10.9.x"
+  },
   "scripts": {
+    "start": "node server.js",
     "build:dev": "webpack --config webpack.dev.js",
     "build:prod": "webpack --config webpack.prod.js",
     "dev-server": "webpack-dev-server --open --config webpack.dev.js",
-    "test": "jest --config=jest.config.json"
+    "test": "jest --config=jest.config.json",
+    "heroku-postbuild": "npm run build:prod"
   },
   "dependencies": {
     "babel-cli": "6.24.1",
@@ -22,6 +30,7 @@
     "enzyme": "^3.4.2",
     "enzyme-adapter-react-16": "^1.2.0",
     "enzyme-to-json": "^3.3.4",
+    "express": "^4.16.3",
     "jest": "^23.5.0",
     "mini-css-extract-plugin": "^0.4.2",
     "moment": "^2.22.2",
