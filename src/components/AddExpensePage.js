@@ -1,11 +1,11 @@
-import React from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import ExpenseForm from "./ExpenseForm";
 import { addExpense } from "../actions/expenses";
 
 // Export the unconnected component as well for testing
 // independently from Redux and dispatch (with spies instead of prop methods)
-export class AddExpensePage extends React.Component {
+export class AddExpensePage extends Component {
   onSubmit = expense => {
     this.props.addExpense(expense);
     this.props.history.push("/");
@@ -13,10 +13,10 @@ export class AddExpensePage extends React.Component {
 
   render() {
     return (
-      <div>
+      <Fragment>
         <h1>Add an expense</h1>
         <ExpenseForm onSubmit={this.onSubmit} />
-      </div>
+      </Fragment>
     );
   }
 }

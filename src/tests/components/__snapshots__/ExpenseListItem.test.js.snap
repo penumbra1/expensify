@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render an ExpenseListItem with given data 1`] = `
-<div>
+<Fragment>
   <Link
     replace={false}
     to="/edit/1"
@@ -12,11 +12,11 @@ exports[`should render an ExpenseListItem with given data 1`] = `
   </Link>
   <p>
     Amount: 
-    1
+    $0.01
   </p>
   <p>
     Created: 
-    0
+    January 1st 1970
   </p>
-</div>
+</Fragment>
 `;

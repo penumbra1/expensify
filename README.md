@@ -3,9 +3,9 @@ Andrew's source code is [here](https://github.com/andrewjmead/react-course-2-exp
 
 ### Code
 
-Changed `mapDispatchToProps` to object syntax instead of function (except where ownProps are passed). This binds action creators automatically.
+Changed `mapDispatchToProps` to object syntax instead of function (except where ownProps are passed) to bind action creators automatically.
 
-Used React 16 and rendered adjacent JSX tags in arrays <3.
+Used React Fragments to render multiple JSX elements.
 
 ### Testing
 
@@ -13,13 +13,11 @@ Added a few tests to improve code coverage.
 
 ---
 
-Rewrote some tests in selectors/expenses.test.js to use sort and filter instead of hard-coding filtered and sorted expense data. Thus if test data changes, test will still use it. However, this makes tests very similar in implementation to the method they are testing, which might not be a good practice. However, as filter and sort are built-in and their use here is very straightforward, I opted to trust them and allow for test data mutability.
+Rewrote some tests in _selectors/expenses.test.js_ to use sort and filter instead of hard-coding filtered and sorted expense data. Thus if the expenses fixture changes, tests will still be able to use it. However, this makes tests very similar in implementation to the selector they are testing,which might not be a good practice. As filter and sort are built-in and their use here is very straightforward, I opted to trust them and prioritize fixture mutability.
 
 ---
 
-According to the [docs](http://airbnb.io/enzyme/docs/guides/jest.html), looks like this is not needed in jest config anymore:
-
-`"setupFiles": ["raf/polyfill", "<rootDir>/src/tests/setupTests.js"]`
+Removed `"setupFiles": ["raf/polyfill"]` from Jest config: Jest [now ships with raf polyfill](https://github.com/BuckyMaler/channels/pull/79).
 
 ### Build
 
@@ -27,8 +25,10 @@ Switched to npm
 
 ---
 
-Used the latest version of webpack and broke the config into 3 files. Thanks to the new automatic _DefinePlugin_, production sourcemap got much lighter (2.12Mb vs. 4.71Mb).
+Used the latest version of webpack to make use of automatic _DefinePlugin_ in production and drop bundle size. Production sourcemap also got much lighter (2.12Mb vs. 4.71Mb).
+
+Separated config into 3 files merged with _webpack-merge_.
 
 ---
 
-Switched to newer mini-css-extract-plugin: see [issue](https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/749). Separated CSS into styles.css in production but kept it in bundle.js in development for hot reloading.
+Switched to newer _mini-css-extract-plugin_: see [issue](https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/749). Separated CSS into _styles.css_ in production but kept it in _bundle.js_ in development for hot reloading.

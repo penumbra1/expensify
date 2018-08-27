@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import ExpenseForm from "./ExpenseForm";
 import NotFoundPage from "../components/NotFoundPage";
@@ -6,7 +6,7 @@ import { editExpense, removeExpense } from "../actions/expenses";
 
 // Export the unconnected component as well for testing
 // independently from Redux and dispatch (with spies instead of prop methods)
-export class EditExpensePage extends React.Component {
+export class EditExpensePage extends Component {
   onSubmit = updates => {
     this.props.editExpense(this.props.expense.id, updates);
     this.props.history.push("/");
@@ -22,16 +22,12 @@ export class EditExpensePage extends React.Component {
     if (!this.props.expense) {
       return <NotFoundPage />;
     }
-    return [
-      <ExpenseForm
-        expense={this.props.expense}
-        onSubmit={this.onSubmit}
-        key="form"
-      />,
-      <button onClick={this.onRemove} key="button">
-        Remove
-      </button>
-    ];
+    return (
+      <Fragment>
+        <ExpenseForm expense={this.props.expense} onSubmit={this.onSubmit} />
+        <button onClick={this.onRemove}>Remove</button>
+      </Fragment>
+    );
   }
 }
 

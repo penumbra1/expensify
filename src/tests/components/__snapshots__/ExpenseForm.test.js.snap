@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render ExpenseForm with given data 1`] = `
-<div>
+<Fragment>
   <form
     onSubmit={[Function]}
   >
@@ -35,6 +35,7 @@ exports[`should render ExpenseForm with given data 1`] = `
       focused={false}
       hideKeyboardShortcutsPanel={false}
       horizontalMargin={0}
+      horizontalMonthPadding={13}
       id="datePicker"
       initialVisibleMonth={null}
       inputIconPosition="before"
@@ -115,11 +116,11 @@ exports[`should render ExpenseForm with given data 1`] = `
       Update expense
     </button>
   </form>
-</div>
+</Fragment>
 `;
 
 exports[`should render ExpenseForm with no data 1`] = `
-<div>
+<Fragment>
   <form
     onSubmit={[Function]}
   >
@@ -153,6 +154,7 @@ exports[`should render ExpenseForm with no data 1`] = `
       focused={false}
       hideKeyboardShortcutsPanel={false}
       horizontalMargin={0}
+      horizontalMonthPadding={13}
       id="datePicker"
       initialVisibleMonth={null}
       inputIconPosition="before"
@@ -233,11 +235,11 @@ exports[`should render ExpenseForm with no data 1`] = `
       Add expense
     </button>
   </form>
-</div>
+</Fragment>
 `;
 
 exports[`should render an error if required data is missing on submit 1`] = `
-<div>
+<Fragment>
   <p>
     Please provide a description and an amount
   </p>
@@ -274,6 +276,7 @@ exports[`should render an error if required data is missing on submit 1`] = `
       focused={false}
       hideKeyboardShortcutsPanel={false}
       horizontalMargin={0}
+      horizontalMonthPadding={13}
       id="datePicker"
       initialVisibleMonth={null}
       inputIconPosition="before"
@@ -354,5 +357,5 @@ exports[`should render an error if required data is missing on submit 1`] = `
       Add expense
     </button>
   </form>
-</div>
+</Fragment>
 `;

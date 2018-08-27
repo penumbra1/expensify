@@ -1,17 +1,10 @@
-import React from "react";
+import React, { Fragment, Component } from "react";
 import { connect } from "react-redux";
-// import {
-//   setTextFilter,
-//   sortByDate,
-//   sortByAmount,
-//   setStartDate,
-//   setEndDate
-// } from "../actions/filters";
 import * as filterActions from "../actions/filters";
 import "react-dates/initialize";
 import { DateRangePicker } from "react-dates";
 
-export class ExpenseListFilters extends React.Component {
+export class ExpenseListFilters extends Component {
   state = {
     calendarFocused: null
   };
@@ -37,7 +30,7 @@ export class ExpenseListFilters extends React.Component {
 
   render() {
     return (
-      <div>
+      <Fragment>
         <input
           type="text"
           value={this.props.filters.text}
@@ -59,7 +52,7 @@ export class ExpenseListFilters extends React.Component {
           isOutsideRange={() => false}
           showClearDates={true}
         />
-      </div>
+      </Fragment>
     );
   }
 }

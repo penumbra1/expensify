@@ -1,9 +1,9 @@
-import React from "react";
+import React, { Fragment, Component } from "react";
 import moment from "moment";
 import "react-dates/initialize";
 import { SingleDatePicker } from "react-dates";
 
-export default class ExpenseForm extends React.Component {
+export default class ExpenseForm extends Component {
   constructor(props) {
     super(props);
 
@@ -64,7 +64,7 @@ export default class ExpenseForm extends React.Component {
 
   render() {
     return (
-      <div>
+      <Fragment>
         {this.state.error && <p>{this.state.error}</p>}
         <form onSubmit={this.onFormSubmit}>
           <input
@@ -98,7 +98,7 @@ export default class ExpenseForm extends React.Component {
             {this.props.expense ? "Update expense" : "Add expense"}
           </button>
         </form>
-      </div>
+      </Fragment>
     );
   }
 }
