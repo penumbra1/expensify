@@ -8,10 +8,10 @@ const filters = {
 };
 
 const filtersWithData = {
-  text: "bills",
+  text: "card",
   sortBy: "amount",
   startDate: moment(0),
-  endDate: moment(0).add(3, "days")
+  endDate: moment(0).add(4, "days")
 };
 
 export { filters, filtersWithData };

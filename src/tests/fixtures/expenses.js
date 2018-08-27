@@ -7,11 +7,11 @@ export default [
     description: "candy",
     note: "sweet!",
     amount: 1,
-    createdAt: 0
+    createdAt: moment(0).valueOf()
   },
   {
     id: "2",
-    description: "rent",
+    description: "Rent",
     note: "too much!",
     amount: 1009500,
     createdAt: moment(0)
@@ -20,7 +20,7 @@ export default [
   },
   {
     id: "3",
-    description: "credit card",
+    description: "credit Card",
     note: "",
     amount: 4500,
     createdAt: moment(0)

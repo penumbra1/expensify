@@ -1,9 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render ExpenseList with empty message 1`] = `
-<p>
-  No expenses
-</p>
+exports[`should map state to props correctly 1`] = `
+<ExpenseListItem
+  amount={4500}
+  createdAt={345600000}
+  description="credit Card"
+  id="3"
+  key="3"
+  note=""
+/>
 `;
 
 exports[`should render ExpenseList with given expenses 1`] = `
@@ -19,7 +24,7 @@ Array [
   <ExpenseListItem
     amount={1009500}
     createdAt={-345600000}
-    description="rent"
+    description="Rent"
     id="2"
     key="2"
     note="too much!"
@@ -27,10 +32,16 @@ Array [
   <ExpenseListItem
     amount={4500}
     createdAt={345600000}
-    description="credit card"
+    description="credit Card"
     id="3"
     key="3"
     note=""
   />,
 ]
+`;
+
+exports[`should render ExpenseList with no expenses 1`] = `
+<p>
+  No expenses
+</p>
 `;

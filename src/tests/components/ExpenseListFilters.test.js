@@ -1,15 +1,17 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { ExpenseListFilters } from "../../components/ExpenseListFilters";
+import {
+  ExpenseListFilters,
+  mapStateToProps
+} from "../../components/ExpenseListFilters";
 import { filters, filtersWithData } from "../fixtures/filters";
 import moment from "moment";
-
 import "react-dates/initialize";
 import { DateRangePicker } from "react-dates";
 
-// Constants from react-dates that DateRangePicker passes as arguments
-// to onFocusChange
-import { START_DATE, END_DATE } from "react-dates/constants";
+// A constant from react-dates that DateRangePicker passes as one of
+// the arguments to onFocusChange
+import { START_DATE } from "react-dates/constants";
 
 let setTextFilter, sortByDate, sortByAmount, setStartDate, setEndDate, wrapper;
 
@@ -87,6 +89,17 @@ test("should handle date change", () => {
 });
 
 test("should handle focus change", () => {
+  expect(wrapper.state("calendarFocused")).toBe(null);
+
   wrapper.find(DateRangePicker).prop("onFocusChange")(START_DATE);
+
   expect(wrapper.state("calendarFocused")).toBe(START_DATE);
+});
+
+test("should map state to props correctly and pass them down", () => {
+  const newProps = mapStateToProps({ filters: filtersWithData });
+
+  wrapper.setProps(newProps);
+
+  expect(wrapper).toMatchSnapshot();
 });

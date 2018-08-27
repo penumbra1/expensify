@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should map state to props correctly 1`] = `
+<h2>
+  Viewing 1 expense totalling $45.00
+</h2>
+`;
+
+exports[`should render ExpensesSummary correctly with a single expense 1`] = `
+<h2>
+  Viewing 1 expense totalling $0.01
+</h2>
+`;
+
+exports[`should render ExpensesSummary correctly with multiple expenses 1`] = `
+<h2>
+  Viewing 3 expenses totalling $10,140.01
+</h2>
+`;
+
+exports[`should render ExpensesSummary correctly with no data 1`] = `""`;

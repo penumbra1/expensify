@@ -13,7 +13,7 @@ test("should not sort or filter if no parameters are specified", () => {
 // On the other hand, I can change mock data without hardcoding it over and over.
 
 test("should filter by text value", () => {
-  const text = "e";
+  const text = "car";
   const filters = {
     text,
     sortBy: "date",
@@ -24,11 +24,7 @@ test("should filter by text value", () => {
 
   // Should receive expenses filtered by description,
   // ordered by date (in UNIX time)
-  expect(result).toEqual(
-    expenses
-      .filter(e => e.description.includes(text))
-      .sort((a, b) => b.createdAt - a.createdAt)
-  );
+  expect(result).toEqual([expenses[2]]);
 });
 
 test("should filter by start date", () => {
@@ -43,11 +39,7 @@ test("should filter by start date", () => {
 
   // Should receive expenses created on startDate or later,
   // ordered by date (in UNIX time)
-  expect(result).toEqual(
-    expenses
-      .filter(e => moment(e.createdAt).isSameOrAfter(startDate, "day"))
-      .sort((a, b) => b.createdAt - a.createdAt)
-  );
+  expect(result).toEqual([expenses[2], expenses[0]]);
 });
 
 test("should filter by end date", () => {
@@ -62,11 +54,7 @@ test("should filter by end date", () => {
 
   // Should receive expenses created on endDate or before,
   // ordered by date (in UNIX time)
-  expect(result).toEqual(
-    expenses
-      .filter(e => moment(e.createdAt).isSameOrBefore(endDate, "day"))
-      .sort((a, b) => b.createdAt - a.createdAt)
-  );
+  expect(result).toEqual([expenses[0], expenses[1]]);
 });
 
 test("should sort by date", () => {
@@ -79,7 +67,7 @@ test("should sort by date", () => {
   const result = selectExpenses(expenses, filters);
 
   // Should receive expenses ordered by date (in UNIX time)
-  expect(result).toEqual(expenses.sort((a, b) => b.createdAt - a.createdAt));
+  expect(result).toEqual([expenses[2], expenses[0], expenses[1]]);
 });
 
 test("should sort by amount", () => {
@@ -92,5 +80,5 @@ test("should sort by amount", () => {
   const result = selectExpenses(expenses, filters);
 
   // Should receive expenses ordered by amount
-  expect(result).toEqual(expenses.sort((a, b) => b.amount - a.amount));
+  expect(result).toEqual([expenses[1], expenses[2], expenses[0]]);
 });

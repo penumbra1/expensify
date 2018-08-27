@@ -23,7 +23,8 @@ export class ExpenseListFilters extends Component {
   onSortChange = e => {
     if (e.target.value === "date") {
       this.props.sortByDate();
-    } else if (e.target.value === "amount") {
+    } else {
+      // e.target.value === "amount"
       this.props.sortByAmount();
     }
   };
@@ -57,7 +58,7 @@ export class ExpenseListFilters extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
   filters: state.filters
 });
 

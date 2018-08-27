@@ -9,11 +9,7 @@ Used React Fragments to render multiple JSX elements.
 
 ### Testing
 
-Added a few tests to improve code coverage.
-
----
-
-Rewrote some tests in _selectors/expenses.test.js_ to use sort and filter instead of hard-coding filtered and sorted expense data. Thus if the expenses fixture changes, tests will still be able to use it. However, this makes tests very similar in implementation to the selector they are testing,which might not be a good practice. As filter and sort are built-in and their use here is very straightforward, I opted to trust them and prioritize fixture mutability.
+Added a few tests to improve code coverage (near 100% now thanks to testing mapStateToProps, although it may not be necessary).
 
 ---
 

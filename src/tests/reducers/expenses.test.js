@@ -11,11 +11,11 @@ test("should remove expense by id", () => {
   const id = expenses[1].id;
   const action = { type: "REMOVE_EXPENSE", id };
   const state = expensesReducer(expenses, action);
-  expect(state).toEqual(expenses.filter(e => e.id !== id));
+  expect(state).toEqual([expenses[0], expenses[2]]);
 });
 
-test("should remove not expenses if id is not found", () => {
-  const id = "-1";
+test("should do nothing if expense with given id doesn't exist", () => {
+  const id = "";
   const action = { type: "REMOVE_EXPENSE", id };
   const state = expensesReducer(expenses, action);
   expect(state).toEqual(expenses);
@@ -48,7 +48,7 @@ test("should edit an expense", () => {
     }
   };
   const state = expensesReducer(expenses, action);
-  expect(state[1].note).toBe(note);
+  expect(state[1]).toEqual({ ...expenses[1], note });
 });
 
 test("should not edit expenses if id is not found", () => {

@@ -10,7 +10,7 @@ exports[`should render ExpenseForm with given data 1`] = `
       onChange={[Function]}
       placeholder="Description"
       type="text"
-      value="rent"
+      value="Rent"
     />
     <input
       onChange={[Function]}
