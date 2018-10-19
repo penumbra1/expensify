@@ -5,7 +5,7 @@ import selectExpenses from "../selectors/expenses";
 import getExpenseTotal from "../selectors/expenses-total";
 
 export const ExpensesSummary = ({ expenseCount, expenseTotal }) =>
-  !!expenseCount && (
+  expenseCount && (
     <h2>
       {`Viewing ${expenseCount} expense${
         expenseCount === 1 ? "" : "s"

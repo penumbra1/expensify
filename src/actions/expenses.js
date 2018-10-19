@@ -1,20 +1,26 @@
-import uuid from "uuid";
+import database from "../firebase/firebase";
 
-export const addExpense = ({
-  description = "",
-  note = "",
-  amount = 0,
-  createdAt = 0
-} = {}) => ({
+export const addExpense = expense => ({
   type: "ADD_EXPENSE",
-  expense: {
-    id: uuid(),
-    description,
-    note,
-    amount,
-    createdAt
-  }
+  expense
 });
+
+// Instead of an action object, startAddExpense returns an "action function"
+// that takes a dispatch argument and will be processed by Thunk middleware
+export const startAddExpense = (expenseData = {}) => dispatch => {
+  const {
+    description = "",
+    note = "",
+    amount = 0,
+    createdAt = 0
+  } = expenseData;
+  const expense = { description, note, amount, createdAt };
+  return database
+    .ref("expenses")
+    .push(expense)
+    .then(data => dispatch(addExpense({ id: data.key, ...expense })))
+    .catch(e => console.log("Failed to add expense", e));
+};
 
 export const removeExpense = ({ id } = {}) => ({
   type: "REMOVE_EXPENSE",

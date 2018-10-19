@@ -1,13 +1,13 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import ExpenseForm from "./ExpenseForm";
-import { addExpense } from "../actions/expenses";
+import { startAddExpense } from "../actions/expenses";
 
 // Export the unconnected component as well for testing
 // independently from Redux and dispatch (with spies instead of prop methods)
 export class AddExpensePage extends Component {
   onSubmit = expense => {
-    this.props.addExpense(expense);
+    this.props.startAddExpense(expense);
     this.props.history.push("/");
   };
 
@@ -23,7 +23,7 @@ export class AddExpensePage extends Component {
 
 // Map dispatch to an addExpense prop
 // to abstract it away from the component
-const mapDispatchToProps = { addExpense };
+const mapDispatchToProps = { startAddExpense };
 
 export default connect(
   undefined,
