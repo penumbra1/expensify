@@ -3,14 +3,14 @@ import moment from "moment";
 // Mock expenses array
 export default [
   {
-    id: "1",
+    id: "first",
     description: "candy",
     note: "sweet!",
     amount: 1,
     createdAt: moment(0).valueOf()
   },
   {
-    id: "2",
+    id: "second",
     description: "Rent",
     note: "too much!",
     amount: 1009500,
@@ -19,7 +19,7 @@ export default [
       .valueOf()
   },
   {
-    id: "3",
+    id: "third",
     description: "credit Card",
     note: "",
     amount: 4500,

@@ -5,8 +5,8 @@ exports[`should map state to props correctly 1`] = `
   amount={4500}
   createdAt={345600000}
   description="credit Card"
-  id="3"
-  key="3"
+  id="third"
+  key="third"
   note=""
 />
 `;
@@ -17,24 +17,24 @@ Array [
     amount={1}
     createdAt={0}
     description="candy"
-    id="1"
-    key="1"
+    id="first"
+    key="first"
     note="sweet!"
   />,
   <ExpenseListItem
     amount={1009500}
     createdAt={-345600000}
     description="Rent"
-    id="2"
-    key="2"
+    id="second"
+    key="second"
     note="too much!"
   />,
   <ExpenseListItem
     amount={4500}
     createdAt={345600000}
     description="credit Card"
-    id="3"
-    key="3"
+    id="third"
+    key="third"
     note=""
   />,
 ]

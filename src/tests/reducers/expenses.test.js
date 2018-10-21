@@ -7,19 +7,20 @@ test("should set up default state", () => {
   expect(state).toEqual([]);
 });
 
-test("should remove expense by id", () => {
-  const id = expenses[1].id;
-  const action = { type: "REMOVE_EXPENSE", id };
+/*
+ * LOADING EXPENSES
+ */
+
+test("should overwrite existing state when loading expenses", () => {
+  const action = { type: "LOAD_EXPENSES", expenses: [expenses[0]] };
   const state = expensesReducer(expenses, action);
-  expect(state).toEqual([expenses[0], expenses[2]]);
+
+  expect(state).toEqual([expenses[0]]);
 });
 
-test("should do nothing if expense with given id doesn't exist", () => {
-  const id = "";
-  const action = { type: "REMOVE_EXPENSE", id };
-  const state = expensesReducer(expenses, action);
-  expect(state).toEqual(expenses);
-});
+/*
+ * ADDING EXPENSES
+ */
 
 test("should add an expense with provided values", () => {
   const expense = {
@@ -34,9 +35,13 @@ test("should add an expense with provided values", () => {
     expense
   };
   const state = expensesReducer(expenses, action);
-  // Should return array with added expense, sorted by date
+
   expect(state).toEqual([...expenses, expense]);
 });
+
+/*
+ * EDITING EXPENSES
+ */
 
 test("should edit an expense", () => {
   const note = "new";
@@ -55,11 +60,29 @@ test("should not edit expenses if id is not found", () => {
   const note = "new";
   const action = {
     type: "EDIT_EXPENSE",
-    id: "-1",
+    id: "inexistent",
     updates: {
       note
     }
   };
+  const state = expensesReducer(expenses, action);
+  expect(state).toEqual(expenses);
+});
+
+/*
+ * REMOVING EXPENSES
+ */
+
+test("should remove expense by id", () => {
+  const id = expenses[1].id;
+  const action = { type: "REMOVE_EXPENSE", id };
+  const state = expensesReducer(expenses, action);
+  expect(state).toEqual([expenses[0], expenses[2]]);
+});
+
+test("should do nothing if expense with given id doesn't exist", () => {
+  const id = "";
+  const action = { type: "REMOVE_EXPENSE", id };
   const state = expensesReducer(expenses, action);
   expect(state).toEqual(expenses);
 });

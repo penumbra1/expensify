@@ -4,7 +4,7 @@ exports[`should render an ExpenseListItem with given data 1`] = `
 <Fragment>
   <Link
     replace={false}
-    to="/edit/1"
+    to="/edit/first"
   >
     <h3>
       candy

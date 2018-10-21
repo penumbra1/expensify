@@ -1,5 +1,32 @@
 import database from "../firebase/firebase";
 
+/*
+ * LOADING EXPENSES
+ */
+
+// Receives an array of expenses with ids
+export const loadExpenses = expenses => ({
+  type: "LOAD_EXPENSES",
+  expenses
+});
+
+export const startLoadExpenses = () => dispatch =>
+  database
+    .ref("expenses")
+    .once("value")
+    .then(snapshot => {
+      const expensesList = [];
+      snapshot.forEach(child => {
+        expensesList.push({ id: child.key, ...child.val() });
+      });
+      return dispatch(loadExpenses(expensesList));
+    })
+    .catch(e => console.log("Failed to load expenses from database", e));
+
+/*
+ * ADDING EXPENSES
+ */
+
 export const addExpense = expense => ({
   type: "ADD_EXPENSE",
   expense
@@ -22,6 +49,10 @@ export const startAddExpense = (expenseData = {}) => dispatch => {
     .catch(e => console.log("Failed to add expense", e));
 };
 
+/*
+ * REMOVING EXPENSES
+ */
+
 export const removeExpense = ({ id } = {}) => ({
   type: "REMOVE_EXPENSE",
   id
@@ -34,6 +65,10 @@ export const startRemoveExpense = ({ id }) => dispatch => {
     .then(() => dispatch(removeExpense({ id })))
     .catch(e => console.log("Failed to remove expense", e));
 };
+
+/*
+ * EDITING EXPENSES
+ */
 
 export const editExpense = (id, updates) => ({
   type: "EDIT_EXPENSE",

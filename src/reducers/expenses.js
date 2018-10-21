@@ -2,6 +2,9 @@ const expensesDefaultState = [];
 
 export default (state = expensesDefaultState, action) => {
   switch (action.type) {
+    case "LOAD_EXPENSES":
+      // Rewrite any previous state
+      return action.expenses;
     case "ADD_EXPENSE":
       return [...state, action.expense];
     case "REMOVE_EXPENSE":
