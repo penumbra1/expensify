@@ -16,11 +16,13 @@ Removed `"setupFiles": ["raf/polyfill"]` from Jest config: Jest [now ships with 
 
 ### Build
 
-Switched to npm
-
-Used the latest version of webpack to make use of automatic _DefinePlugin_ in production and drop bundle size. Production sourcemap also got much lighter (2.12Mb vs. 4.71Mb).
+Switched to npm.
 
 Separated config into 3 files merged with _webpack-merge_.
+
+Used the latest version of webpack to automatically define process.env.NODE_ENV === 'production' and [drop production bundle size](https://webpack.js.org/guides/production/#specify-the-mode). Production sourcemap also got much lighter (2.12Mb vs. 4.71Mb).
+
+Used [env-cmd](https://www.npmjs.com/package/env-cmd) instead of [cross-env](https://www.npmjs.com/package/cross-env) + [dotenv](https://www.npmjs.com/package/dotenv) for loading environment variables.
 
 Switched to newer _mini-css-extract-plugin_: see [issue](https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/749). Separated CSS into _styles.css_ in production but kept it in _bundle.js_ in development for hot reloading.
 
