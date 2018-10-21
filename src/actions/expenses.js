@@ -5,7 +5,7 @@ export const addExpense = expense => ({
   expense
 });
 
-// Instead of an action object, startAddExpense returns an "action function"
+// Instead of an action object, startAddExpense returns an "action promise"
 // that takes a dispatch argument and will be processed by Thunk middleware
 export const startAddExpense = (expenseData = {}) => dispatch => {
   const {
@@ -27,8 +27,23 @@ export const removeExpense = ({ id } = {}) => ({
   id
 });
 
+export const startRemoveExpense = ({ id }) => dispatch => {
+  database
+    .ref(`expenses/${id}`)
+    .remove()
+    .then(() => dispatch(removeExpense({ id })))
+    .catch(e => console.log("Failed to remove expense", e));
+};
+
 export const editExpense = (id, updates) => ({
   type: "EDIT_EXPENSE",
   id,
   updates
 });
+
+export const startEditExpense = ({ id, ...updates }) => dispatch =>
+  database
+    .ref(`expenses/${id}`)
+    .update(updates)
+    .then(() => dispatch(editExpense(id, updates)))
+    .catch(e => console.log("Failed to update expense", e));

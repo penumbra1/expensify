@@ -33,3 +33,10 @@ Switched to newer _mini-css-extract-plugin_: see [issue](https://github.com/webp
 ---
 
 Added [optimize-css-assets-webpack-plugin](https://www.npmjs.com/package/optimize-css-assets-webpack-plugin) to remove comments and duplicate CSS.
+
+TODO:
+
+- styles
+- switch to Babel 7
+- check for fragment <> syntax support in Jest
+- refactor ExpenseForm to pass only the updated fields in "updates" instead of rewriting all data to itself
