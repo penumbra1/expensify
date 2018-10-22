@@ -1,19 +1,19 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import ExpenseForm from "./ExpenseForm";
-import NotFoundPage from "../components/NotFoundPage";
-import { editExpense, removeExpense } from "../actions/expenses";
+import NotFoundPage from "./NotFoundPage";
+import { startEditExpense, startRemoveExpense } from "../actions/expenses";
 
 // Export the unconnected component as well for testing
 // independently from Redux and dispatch (with spies instead of prop methods)
 export class EditExpensePage extends Component {
   onSubmit = updates => {
-    this.props.editExpense(this.props.expense.id, updates);
+    this.props.startEditExpense(this.props.expense.id, updates);
     this.props.history.push("/");
   };
 
   onRemove = () => {
-    this.props.removeExpense(this.props.expense);
+    this.props.startRemoveExpense(this.props.expense.id);
     this.props.history.push("/");
   };
 
@@ -36,8 +36,8 @@ export const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = {
-  editExpense,
-  removeExpense
+  startEditExpense,
+  startRemoveExpense
 };
 
 export default connect(

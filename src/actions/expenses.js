@@ -50,23 +50,6 @@ export const startAddExpense = (expenseData = {}) => dispatch => {
 };
 
 /*
- * REMOVING EXPENSES
- */
-
-export const removeExpense = ({ id } = {}) => ({
-  type: "REMOVE_EXPENSE",
-  id
-});
-
-export const startRemoveExpense = ({ id }) => dispatch => {
-  database
-    .ref(`expenses/${id}`)
-    .remove()
-    .then(() => dispatch(removeExpense({ id })))
-    .catch(e => console.log("Failed to remove expense", e));
-};
-
-/*
  * EDITING EXPENSES
  */
 
@@ -76,9 +59,25 @@ export const editExpense = (id, updates) => ({
   updates
 });
 
-export const startEditExpense = ({ id, ...updates }) => dispatch =>
+export const startEditExpense = (id, updates) => dispatch =>
   database
     .ref(`expenses/${id}`)
     .update(updates)
     .then(() => dispatch(editExpense(id, updates)))
     .catch(e => console.log("Failed to update expense", e));
+
+/*
+ * REMOVING EXPENSES
+ */
+
+export const removeExpense = id => ({
+  type: "REMOVE_EXPENSE",
+  id
+});
+
+export const startRemoveExpense = id => dispatch =>
+  database
+    .ref(`expenses/${id}`)
+    .remove()
+    .then(() => dispatch(removeExpense(id)))
+    .catch(e => console.log("Failed to remove expense", e));

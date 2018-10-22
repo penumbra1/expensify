@@ -7,7 +7,8 @@ import {
   startAddExpense,
   editExpense,
   startEditExpense,
-  removeExpense
+  removeExpense,
+  startRemoveExpense
 } from "../../actions/expenses";
 import expenses from "../fixtures/expenses";
 import database from "../../firebase/firebase";
@@ -154,7 +155,10 @@ test("should add expense with given data to the database", done => {
  */
 
 test("should set up an edit expense action object", () => {
-  const action = editExpense("first", { description: "new" });
+  const id = "first";
+  const updates = { description: "new" };
+  const action = editExpense(id, updates);
+
   expect(action).toEqual({
     type: "EDIT_EXPENSE",
     id: "first",
@@ -166,10 +170,11 @@ test("should set up an edit expense action object", () => {
 
 test("should dispatch an edit expense action with given data", done => {
   const expense = expenses[1];
-  const { description, amount, createdAt } = expense;
+  const { id } = expense;
+  const updates = { note: "too much indeed!" };
 
   store
-    .dispatch(startEditExpense({ ...expense, note: "too much indeed!" }))
+    .dispatch(startEditExpense(id, updates))
     .then(() => {
       const action = store.getActions()[0];
 
@@ -177,9 +182,6 @@ test("should dispatch an edit expense action with given data", done => {
         type: "EDIT_EXPENSE",
         id: expense.id,
         updates: {
-          description,
-          amount,
-          createdAt,
           note: "too much indeed!"
         }
       });
@@ -191,8 +193,8 @@ test("should dispatch an edit expense action with given data", done => {
 
 test("should edit a given expense in the database", done => {
   let expense;
-  let note;
   let id;
+  let note;
 
   // Get a snapshot containing only the first expense and update it
   database
@@ -200,12 +202,12 @@ test("should edit a given expense in the database", done => {
     .limitToFirst(1)
     .once("value")
     .then(snapshot => {
-      for (const key in snapshot.val()) {
-        id = key;
-        expense = snapshot.val()[key];
-      }
+      snapshot.forEach(child => {
+        id = child.key;
+        expense = child.val();
+      });
       note = `${expense.note} - edited`;
-      return store.dispatch(startEditExpense({ id, ...expense, note }));
+      return store.dispatch(startEditExpense(id, { note }));
     })
     .then(() =>
       database.ref(`expenses/${id}`).once("value", data => {
@@ -219,18 +221,42 @@ test("should edit a given expense in the database", done => {
 /*
  * REMOVING EXPENSES
  */
-test("should set up a remove expense action object with default id", () => {
-  const action = removeExpense();
-  expect(action).toEqual({
-    type: "REMOVE_EXPENSE",
-    id: undefined
-  });
-});
 
 test("should set up a remove expense action object with given id", () => {
-  const action = removeExpense({ id: "first" });
+  const action = removeExpense("first");
   expect(action).toEqual({
     type: "REMOVE_EXPENSE",
     id: "first"
   });
+});
+
+test("should dispatch a remove expense action with given id", done => {
+  const { id } = expenses[1];
+  store
+    .dispatch(startRemoveExpense(id))
+    .then(() => {
+      const action = store.getActions()[0];
+
+      expect(action).toEqual({ type: "REMOVE_EXPENSE", id });
+      done();
+    })
+    .catch(e => console.log(e));
+});
+
+test("should remove an expense with given id from the database", done => {
+  const { id } = expenses[0];
+
+  store
+    .dispatch(startRemoveExpense(id))
+    .then(() => database.ref("expenses").once("value"))
+    .then(snapshot => {
+      const expensesInDatabase = [];
+      snapshot.forEach(child => {
+        expensesInDatabase.push({ id: child.key, ...child.val() });
+      });
+
+      expect(expensesInDatabase).toEqual(expenses.slice(1));
+      done();
+    })
+    .catch(e => console.log(e));
 });

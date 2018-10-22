@@ -4,25 +4,25 @@ import {
   EditExpensePage,
   mapStateToProps
 } from "../../components/EditExpensePage";
-import { Redirect } from "react-router-dom";
 import expenses from "../fixtures/expenses";
 
-let expense, history, editExpense, removeExpense, wrapper;
+let expense;
+let history;
+let startEditExpense;
+let startRemoveExpense;
+let wrapper;
 
 beforeEach(() => {
   expense = expenses[0];
   history = { push: jest.fn() };
 
   // Spies
-  removeExpense = jest.fn();
-  editExpense = jest.fn();
+  startRemoveExpense = jest.fn();
+  startEditExpense = jest.fn();
 
   wrapper = shallow(
     <EditExpensePage
-      expense={expense}
-      removeExpense={removeExpense}
-      editExpense={editExpense}
-      history={history}
+      {...{ expense, startEditExpense, startRemoveExpense, history }}
     />
   );
 });
@@ -51,14 +51,14 @@ test("should receive correct expense prop from state and pass it down", () => {
   expect(wrapper.find("ExpenseForm").prop("expense")).toEqual(expenseToEdit);
 });
 
-test("should call editExpense and redirect to / on valid data submission", () => {
+test("should call startEditExpense and redirect to / on valid data submission", () => {
   wrapper.find("ExpenseForm").prop("onSubmit")(expense);
   expect(history.push).toHaveBeenLastCalledWith("/");
-  expect(editExpense).toHaveBeenLastCalledWith(expense.id, expense);
+  expect(startEditExpense).toHaveBeenLastCalledWith(expense.id, expense);
 });
 
-test("should call removeExpense and redirect to / on remove button click", () => {
+test("should call startRemoveExpense and redirect to / on remove button click", () => {
   wrapper.find("button").simulate("click");
   expect(history.push).toHaveBeenLastCalledWith("/");
-  expect(removeExpense).toHaveBeenLastCalledWith(expense);
+  expect(startRemoveExpense).toHaveBeenLastCalledWith(expense.id);
 });

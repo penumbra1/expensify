@@ -21,6 +21,18 @@ const root = document.getElementById("app");
 
 ReactDOM.render(<p>Loading...</p>, root);
 
-store.dispatch(startLoadExpenses()).then(() => {
-  ReactDOM.render(app, root);
-});
+store
+  .dispatch(startLoadExpenses())
+  .then(() => {
+    ReactDOM.render(app, root);
+  })
+  .catch(e => {
+    console.log(e);
+    ReactDOM.render(
+      <p>
+        Ouch, failed to load expenses from the database. Please check your
+        connection and try again.
+      </p>,
+      root
+    );
+  });
