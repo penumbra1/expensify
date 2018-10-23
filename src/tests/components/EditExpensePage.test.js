@@ -5,6 +5,7 @@ import {
   mapStateToProps
 } from "../../components/EditExpensePage";
 import expenses from "../fixtures/expenses";
+import { DASHBOARD } from "../../routers/pathNames";
 
 let expense;
 let history;
@@ -51,14 +52,14 @@ test("should receive correct expense prop from state and pass it down", () => {
   expect(wrapper.find("ExpenseForm").prop("expense")).toEqual(expenseToEdit);
 });
 
-test("should call startEditExpense and redirect to / on valid data submission", () => {
+test("should call startEditExpense and redirect to dashboard on valid data submission", () => {
   wrapper.find("ExpenseForm").prop("onSubmit")(expense);
-  expect(history.push).toHaveBeenLastCalledWith("/");
+  expect(history.push).toHaveBeenLastCalledWith(DASHBOARD);
   expect(startEditExpense).toHaveBeenLastCalledWith(expense.id, expense);
 });
 
-test("should call startRemoveExpense and redirect to / on remove button click", () => {
+test("should call startRemoveExpense and redirect to dashboard on remove button click", () => {
   wrapper.find("button").simulate("click");
-  expect(history.push).toHaveBeenLastCalledWith("/");
+  expect(history.push).toHaveBeenLastCalledWith(DASHBOARD);
   expect(startRemoveExpense).toHaveBeenLastCalledWith(expense.id);
 });

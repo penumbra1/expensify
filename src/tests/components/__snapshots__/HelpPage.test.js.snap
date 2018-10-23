@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render NotFoundPage correctly 1`] = `
+exports[`should render the help page correctly 1`] = `
 <Fragment>
-  <p>
-    404 - Not Found!
-  </p>
+  <div>
+    Help
+  </div>
   <button
     onClick={[Function]}
   >

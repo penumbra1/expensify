@@ -2,13 +2,14 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import ExpenseForm from "./ExpenseForm";
 import { startAddExpense } from "../actions/expenses";
+import { DASHBOARD } from "../routers/pathNames";
 
 // Export the unconnected component as well for testing
 // independently from Redux and dispatch (with spies instead of prop methods)
 export class AddExpensePage extends Component {
   onSubmit = expense => {
     this.props.startAddExpense(expense);
-    this.props.history.push("/");
+    this.props.history.push(DASHBOARD);
   };
 
   render() {

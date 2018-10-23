@@ -3,18 +3,19 @@ import { connect } from "react-redux";
 import ExpenseForm from "./ExpenseForm";
 import NotFoundPage from "./NotFoundPage";
 import { startEditExpense, startRemoveExpense } from "../actions/expenses";
+import { DASHBOARD } from "../routers/pathNames";
 
 // Export the unconnected component as well for testing
 // independently from Redux and dispatch (with spies instead of prop methods)
 export class EditExpensePage extends Component {
   onSubmit = updates => {
     this.props.startEditExpense(this.props.expense.id, updates);
-    this.props.history.push("/");
+    this.props.history.push(DASHBOARD);
   };
 
   onRemove = () => {
     this.props.startRemoveExpense(this.props.expense.id);
-    this.props.history.push("/");
+    this.props.history.push(DASHBOARD);
   };
 
   render() {

@@ -1,17 +1,17 @@
 import React from "react";
 import { shallow } from "enzyme";
-import NotFoundPage from "../../components/NotFoundPage";
+import HelpPage from "../../components/HelpPage";
 
-test("should render NotFoundPage correctly", () => {
+test("should render the help page correctly", () => {
   const history = { goBack: () => {} };
-  const wrapper = shallow(<NotFoundPage history={history} />);
+  const wrapper = shallow(<HelpPage history={history} />);
 
   expect(wrapper).toMatchSnapshot();
 });
 
 test("should go back in history on button click", () => {
   const history = { goBack: jest.fn() };
-  const wrapper = shallow(<NotFoundPage history={history} />);
+  const wrapper = shallow(<HelpPage history={history} />);
 
   wrapper.find("button").simulate("click");
 

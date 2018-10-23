@@ -8,6 +8,10 @@ Changed `mapDispatchToProps` to [object syntax](https://daveceddia.com/redux-map
 
 Used React Fragments to render multiple JSX elements.
 
+Extracted hardcoded path names into reusable constants.
+
+Fixed [update blocking](https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/guides/blocked-updates.md) of active link styles in the header.
+
 \+ Lots of little performance and readability tweaks.
 
 ## Testing
@@ -34,9 +38,16 @@ Added [optimize-css-assets-webpack-plugin](https://www.npmjs.com/package/optimiz
 
 ## TODO:
 
-- styles
-- custom loader
+- add cancel functionality
+- fix: going to edit/{inexistentId} throws an error - gotta redirect to 404 if firebase returns nothing
+- styles - Grommet?
+- stats visualized with Grommet
 - switch to Babel 7
+- refactor to React.PureComponent where possible
+- switch to React 16.6 to use memo in sfc
+- refactor promises to async/await
 - check for fragment <> syntax support in Jest
 - refactor ExpenseForm to pass only the updated fields in "updates" instead of rewritingthe entire expense - diff the form state against its props.expense and send up only the difference
+- review test coverage (e.g. AppRouter is not tested)
 - make store observe external changes in firebase (e.g. if another instance of the app is changing the same DB) - currently the store loads data from the DB only on starup
+- add tag functionality (search by tag, tag cloud)

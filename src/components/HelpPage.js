@@ -1,5 +1,10 @@
-import React from "react";
+import React, { Fragment } from "react";
 
-const HelpPage = () => <div>Help</div>;
+const HelpPage = props => (
+  <Fragment>
+    <div>Help</div>
+    <button onClick={props.history.goBack}>Go back</button>
+  </Fragment>
+);
 
 export default HelpPage;

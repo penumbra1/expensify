@@ -1,10 +1,9 @@
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
 
-const NotFoundPage = () => (
+const NotFoundPage = props => (
   <Fragment>
     <p>404 - Not Found!</p>
-    <Link to="/">Go home</Link>
+    <button onClick={props.history.goBack}>Go back</button>
   </Fragment>
 );
 
