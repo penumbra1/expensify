@@ -1,14 +1,6 @@
 import React from "react";
-import { connect } from "react-redux";
-import { startLogin } from "../actions/auth";
+import { startLogin } from "../firebase/auth";
 
-export const LoginPage = props => (
-  <button onClick={props.startLogin}>Log in</button>
-);
+export const LoginPage = () => <button onClick={startLogin}>Log in</button>;
 
-const mapDispatchToProps = { startLogin };
-
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(LoginPage);
+export default LoginPage;

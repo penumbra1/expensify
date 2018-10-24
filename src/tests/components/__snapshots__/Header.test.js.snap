@@ -5,32 +5,11 @@ exports[`should render header correctly 1`] = `
   <h1>
     Expensify
   </h1>
-  <NavLink
-    activeClassName="is-active"
-    aria-current="page"
-    exact={true}
-    to="/dashboard"
-  >
-    Dashboard
-  </NavLink>
-  <NavLink
-    activeClassName="is-active"
-    aria-current="page"
-    to="/create"
-  >
-    Add
-  </NavLink>
-  <NavLink
-    activeClassName="is-active"
-    aria-current="page"
-    to="/help"
-  >
-    Help
-  </NavLink>
   <button
-    onClick={[Function]}
+    onClick={[MockFunction]}
   >
     Log out
   </button>
+  <NavBar />
 </header>
 `;

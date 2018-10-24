@@ -1,6 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { Header } from "../../components/Header";
+import { startLogout } from "../../firebase/auth";
+
+jest.mock("../../firebase/auth", () => ({ startLogout: jest.fn() }));
 
 test("should render header correctly", () => {
   const wrapper = shallow(<Header startLogout={() => {}} />);
@@ -13,8 +16,7 @@ test("should render header correctly", () => {
 });
 
 test("should call startLogout on button click", () => {
-  const startLogout = jest.fn();
-  const wrapper = shallow(<Header startLogout={startLogout} />);
+  const wrapper = shallow(<Header />);
   wrapper.find("button").simulate("click");
 
   expect(startLogout).toHaveBeenCalled();

@@ -5,8 +5,8 @@ import "normalize.css/normalize.css";
 import "react-dates/lib/css/_datepicker.css";
 import "./styles/styles.scss";
 
-import AppRouter, { history } from "./routers/AppRouter";
 import configureStore from "./store/configureStore";
+import AppRouter, { history } from "./routers/AppRouter";
 import { firebase } from "./firebase/firebase";
 import { startLoadExpenses } from "./actions/expenses";
 import { login, logout } from "./actions/auth";

@@ -10,7 +10,7 @@ Used React Fragments to render multiple JSX elements.
 
 Extracted hardcoded path names into reusable constants.
 
-Fixed [update blocking](https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/guides/blocked-updates.md) of active link styles in the header.
+Added NavBar and HelpPage components.
 
 \+ Lots of little performance and readability tweaks.
 
@@ -40,14 +40,15 @@ Added [optimize-css-assets-webpack-plugin](https://www.npmjs.com/package/optimiz
 
 - add cancel functionality
 - fix: going to edit/{inexistentId} throws an error - gotta redirect to 404 if firebase returns nothing
+- fix: going to inexistent route -> 404 -> back is slow - why?
 - styles - Grommet?
-- stats visualized with Grommet
+- stats visualized with Grommet?
 - switch to Babel 7
 - refactor to React.PureComponent where possible
 - switch to React 16.6 to use memo in sfc
 - refactor promises to async/await
 - check for fragment <> syntax support in Jest
 - refactor ExpenseForm to pass only the updated fields in "updates" instead of rewritingthe entire expense - diff the form state against its props.expense and send up only the difference
-- review test coverage (e.g. AppRouter is not tested)
+- review test coverage (e.g. router and firebase files are not tested - check out [firebase-mock](https://github.com/soumak77/firebase-mock/blob/HEAD/tutorials/client/auth/authentication.md))
 - make store observe external changes in firebase (e.g. if another instance of the app is changing the same DB) - currently the store loads data from the DB only on starup
 - add tag functionality (search by tag, tag cloud)

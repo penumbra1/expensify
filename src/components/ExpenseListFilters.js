@@ -31,7 +31,7 @@ export class ExpenseListFilters extends Component {
 
   render() {
     return (
-      <Fragment>
+      <div>
         <input
           type="text"
           value={this.props.filters.text}
@@ -53,7 +53,7 @@ export class ExpenseListFilters extends Component {
           isOutsideRange={() => false}
           showClearDates={true}
         />
-      </Fragment>
+      </div>
     );
   }
 }

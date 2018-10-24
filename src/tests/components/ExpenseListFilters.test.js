@@ -1,19 +1,20 @@
 import React from "react";
 import { shallow } from "enzyme";
+import moment from "moment";
+import "react-dates/initialize";
+import { DateRangePicker } from "react-dates";
+
+import { START_DATE } from "react-dates/constants";
 import {
   ExpenseListFilters,
   mapStateToProps
 } from "../../components/ExpenseListFilters";
 import { filters, filtersWithData } from "../fixtures/filters";
-import moment from "moment";
-import "react-dates/initialize";
-import { DateRangePicker } from "react-dates";
 
 // A constant from react-dates that DateRangePicker passes as one of
 // the arguments to onFocusChange
-import { START_DATE } from "react-dates/constants";
 
-let setTextFilter, sortByDate, sortByAmount, setStartDate, setEndDate, wrapper;
+let setTextFilter; let sortByDate; let sortByAmount; let setStartDate; let setEndDate; let wrapper;
 
 beforeEach(() => {
   setTextFilter = jest.fn();

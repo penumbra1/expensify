@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should map state to props correctly and pass them down 1`] = `
-<Fragment>
+<div>
   <input
     onChange={[Function]}
     type="text"
@@ -117,11 +117,11 @@ exports[`should map state to props correctly and pass them down 1`] = `
     withFullScreenPortal={false}
     withPortal={false}
   />
-</Fragment>
+</div>
 `;
 
 exports[`should render ExpenseListFilters with empty data correctly 1`] = `
-<Fragment>
+<div>
   <input
     onChange={[Function]}
     type="text"
@@ -237,11 +237,11 @@ exports[`should render ExpenseListFilters with empty data correctly 1`] = `
     withFullScreenPortal={false}
     withPortal={false}
   />
-</Fragment>
+</div>
 `;
 
 exports[`should render ExpenseListFilters with non-empty data correctly 1`] = `
-<Fragment>
+<div>
   <input
     onChange={[Function]}
     type="text"
@@ -357,5 +357,5 @@ exports[`should render ExpenseListFilters with non-empty data correctly 1`] = `
     withFullScreenPortal={false}
     withPortal={false}
   />
-</Fragment>
+</div>
 `;
