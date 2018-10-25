@@ -1,15 +1,18 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-import { startLogout } from "../firebase/auth";
-import { HELP } from "../routers/pathNames";
+import { HELP, DASHBOARD } from "../routers/pathNames";
+import Social from "./Social";
 
 export const Header = () => (
   <header>
-    <h1>Expensify</h1>
+    <NavLink to={DASHBOARD}>
+      <h1>Expensify</h1>
+    </NavLink>
     <NavLink to={HELP} activeClassName="is-active">
       Help
     </NavLink>
+    <Social />
   </header>
 );
 

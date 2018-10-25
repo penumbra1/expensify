@@ -3,6 +3,7 @@ import { Router, Route, Switch } from "react-router-dom";
 import createHistory from "history/createBrowserHistory";
 
 import PrivateRoute from "./PrivateRoute";
+import PublicRoute from "./PublicRoute";
 import Header from "../components/Header";
 import ExpenseDashboardPage from "../components/ExpenseDashboardPage";
 import AddExpensePage from "../components/AddExpensePage";
@@ -18,10 +19,10 @@ const history = createHistory();
 const AppRouter = () => (
   <Router history={history}>
     <Fragment>
-      <Route component={Header} />
+      <Header />
       <main>
         <Switch>
-          <Route exact path={pathNames.ROOT} component={LoginPage} />
+          <PublicRoute exact path={pathNames.ROOT} component={LoginPage} />
           <PrivateRoute
             path={pathNames.DASHBOARD}
             component={ExpenseDashboardPage}

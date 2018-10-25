@@ -10,7 +10,9 @@ Used React Fragments to render multiple JSX elements.
 
 Extracted hardcoded path names into reusable constants.
 
-Added NavBar and HelpPage components.
+Added NavBar, Loader, HelpPage, and Social components.
+
+Added error handling and user messages for network and database errors.
 
 \+ Lots of little performance and readability tweaks.
 
@@ -38,7 +40,10 @@ Added [optimize-css-assets-webpack-plugin](https://www.npmjs.com/package/optimiz
 
 ## TODO:
 
+- offline firbase: actions and updates are sent when user reconnects. Add an "online" indicator and sync upon reconnect.
+- check if manual render check on firebase login state change is necessary
 - add cancel functionality
+- add social media icons, spinner, error pic
 - fix: going to edit/{inexistentId} throws an error - gotta redirect to 404 if firebase returns nothing
 - fix: going to inexistent route -> 404 -> back is slow - why?
 - styles - Grommet?
@@ -49,6 +54,8 @@ Added [optimize-css-assets-webpack-plugin](https://www.npmjs.com/package/optimiz
 - refactor promises to async/await
 - check for fragment <> syntax support in Jest
 - refactor ExpenseForm to pass only the updated fields in "updates" instead of rewritingthe entire expense - diff the form state against its props.expense and send up only the difference
-- review test coverage (e.g. router and firebase files are not tested - check out [firebase-mock](https://github.com/soumak77/firebase-mock/blob/HEAD/tutorials/client/auth/authentication.md))
+- review test coverage (e.g. status, social, router)
+- firebase files are not tested - check out [firebase-mock](https://github.com/soumak77/firebase-mock/blob/HEAD/tutorials/client/auth/authentication.md))
 - make store observe external changes in firebase (e.g. if another instance of the app is changing the same DB) - currently the store loads data from the DB only on starup
+- add reload/refresh button next to the error message for when expenses fail to load
 - add tag functionality (search by tag, tag cloud)

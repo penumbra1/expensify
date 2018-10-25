@@ -21,7 +21,8 @@ export class EditExpensePage extends Component {
   render() {
     // Redirect to 404 page if no expense was found (URL or id incorrect)
     if (!this.props.expense) {
-      return <NotFoundPage />;
+      console.log("Wrong");
+      return <NotFoundPage history={this.props.history} />;
     }
     return (
       <Fragment>

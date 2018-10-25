@@ -1,4 +1,5 @@
 import database from "../firebase/firebase";
+import { startLoading, finishLoading, setError } from "./status";
 
 /*
  * LOADING EXPENSES
@@ -10,8 +11,10 @@ export const loadExpenses = expenses => ({
   expenses
 });
 
-export const startLoadExpenses = () => dispatch =>
-  database
+export const startLoadExpenses = () => dispatch => {
+  dispatch(startLoading("Loading expenses..."));
+
+  return database
     .ref("expenses")
     .once("value")
     .then(snapshot => {
@@ -19,9 +22,10 @@ export const startLoadExpenses = () => dispatch =>
       snapshot.forEach(child => {
         expensesList.push({ id: child.key, ...child.val() });
       });
+      dispatch(finishLoading());
       return dispatch(loadExpenses(expensesList));
-    })
-    .catch(e => console.log("Failed to load expenses from database", e));
+    });
+};
 
 /*
  * ADDING EXPENSES
@@ -32,7 +36,7 @@ export const addExpense = expense => ({
   expense
 });
 
-// Instead of an action object, startAddExpense returns an "action promise"
+// Instead of an action object, startAddExpense returns an "action function"
 // that takes a dispatch argument and will be processed by Thunk middleware
 export const startAddExpense = (expenseData = {}) => dispatch => {
   const {
@@ -42,11 +46,19 @@ export const startAddExpense = (expenseData = {}) => dispatch => {
     createdAt = 0
   } = expenseData;
   const expense = { description, note, amount, createdAt };
+
   return database
     .ref("expenses")
-    .push(expense)
-    .then(data => dispatch(addExpense({ id: data.key, ...expense })))
-    .catch(e => console.log("Failed to add expense", e));
+    .push(expense, error => {
+      if (error) {
+        dispatch(
+          setError(
+            "Ouch, failed to add this expense. Please reach out to us if this issue persists."
+          )
+        );
+      }
+    })
+    .then(data => dispatch(addExpense({ id: data.key, ...expense })));
 };
 
 /*
