@@ -1,15 +1,20 @@
-const statusDefaultState = { loading: false, error: null, message: null };
+const statusDefaultState = {
+  online: false,
+  loading: false,
+  errors: []
+};
 
 export default (state = statusDefaultState, action) => {
+  const { online, loading, error } = action;
   switch (action.type) {
-    case "START_LOADING":
-      return { ...state, loading: true, error: false, message: action.message };
-    case "FINISH_LOADING":
-      return { ...state, loading: false, error: false, message: null };
+    case "SET_ONLINE":
+      return { ...state, online };
+    case "SET_LOADING":
+      return { ...state, loading };
     case "SET_ERROR":
-      return { ...state, error: true, message: action.message };
-    case "CLEAR_ERROR":
-      return { ...state, error: false };
+      return { ...state, errors: [...state.errors, error] };
+    case "CLEAR_ERRORS":
+      return { ...state, errors: [] };
     default:
       return state;
   }

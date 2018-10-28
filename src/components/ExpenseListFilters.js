@@ -1,5 +1,6 @@
 import React, { Fragment, Component } from "react";
 import { connect } from "react-redux";
+
 import * as filterActions from "../actions/filters";
 import "react-dates/initialize";
 import { DateRangePicker } from "react-dates";

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
 
 import NavBar from "../components/NavBar";
-import { startLogout } from "../firebase/auth";
+import { startLogout } from "../actions/auth";
 import { ROOT } from "./pathNames";
 
 const PrivateRoute = ({ isAuthenticated, ...props }) =>

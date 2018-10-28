@@ -1,12 +1,18 @@
 import React, { Fragment } from "react";
-import { startLogin } from "../firebase/auth";
+import { connect } from "react-redux";
+import { startLogin } from "../actions/auth";
 import Loader from "./Loader";
 
-export const LoginPage = () => (
+export const LoginPage = props => (
   <Fragment>
     <Loader />
-    <button onClick={startLogin}>Log in</button>
+    <button onClick={props.startLogin}>Log in</button>
   </Fragment>
 );
 
-export default LoginPage;
+const mapDispatchToProps = { startLogin };
+
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(LoginPage);

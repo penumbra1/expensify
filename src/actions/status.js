@@ -1,7 +1,15 @@
-export const startLoading = message => ({ type: "START_LOADING", message });
+export const setOnline = online => ({ type: "SET_ONLINE", online });
 
-export const finishLoading = () => ({ type: "FINISH_LOADING" });
+export const setLoading = loading => ({
+  type: "SET_LOADING",
+  loading
+});
 
-export const setError = message => ({ type: "SET_ERROR", message });
+export const setError = error => ({
+  type: "SET_ERROR",
+  error
+});
 
-export const clearError = () => ({ type: "CLEAR_ERROR" });
+export const clearErrors = () => ({
+  type: "CLEAR_ERRORS"
+});

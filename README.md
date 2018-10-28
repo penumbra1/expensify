@@ -10,15 +10,19 @@ Used React Fragments to render multiple JSX elements.
 
 Extracted hardcoded path names into reusable constants.
 
-Added NavBar, Loader, HelpPage, and Social components.
+Used [shortid](https://www.npmjs.com/package/shortid) for keys and temporary ids in optimistic UI updates.
 
-Added error handling and user messages for network and database errors.
+Added NavBar, Loader, HelpPage, Social, OnlineIndicator components.
+
+Added error handling and display.
+
+Implemented optimistic UI updates via Thunk and Promise.race.
 
 \+ Lots of little performance and readability tweaks.
 
 ## Testing
 
-Added a few tests to improve code coverage (near 100% now thanks to testing mapStateToProps, although it may not be necessary).
+Added tests for old and new components to improve code coverage.
 
 Rewrote some tests to DRY them up and avoid passing around unnecessary data.
 
@@ -40,22 +44,30 @@ Added [optimize-css-assets-webpack-plugin](https://www.npmjs.com/package/optimiz
 
 ## TODO:
 
-- offline firbase: actions and updates are sent when user reconnects. Add an "online" indicator and sync upon reconnect.
-- check if manual render check on firebase login state change is necessary
-- add cancel functionality
+- Firebase limitation: server can't push updates to slient unless there is an value listener. However, a value listener will cause a roundtrip:
+  -- 1) client state updates
+  -- 2) client sends update to firebase
+  -- 3) firebase updates 4) value listener causes client to update again
+  There is no way to see whether a change came from the current client or another app instance, so if I want to sync between different app instances, the roundtrip is inevitable. I can only avoid reloading the entire list on every single change by adding more specific child listeners.
+
+- Normalize the store: add a byId object to use for syncing and keep only the ids in the array to use for sorting/filtering
+
+- refactor ExpenseForm to pass only the updated fields in "updates" instead of rewritingthe entire expense - diff the form state against its props.expense and send up only the difference
+
+- Persist state to localstorage and boot from there when offline
+
 - add social media icons, spinner, error pic
-- fix: going to edit/{inexistentId} throws an error - gotta redirect to 404 if firebase returns nothing
-- fix: going to inexistent route -> 404 -> back is slow - why?
 - styles - Grommet?
-- stats visualized with Grommet?
+- stats page visualized with Grommet?
+-
 - switch to Babel 7
 - refactor to React.PureComponent where possible
-- switch to React 16.6 to use memo in sfc
-- refactor promises to async/await
-- check for fragment <> syntax support in Jest
-- refactor ExpenseForm to pass only the updated fields in "updates" instead of rewritingthe entire expense - diff the form state against its props.expense and send up only the difference
+- switch to React 16.6 to use memo in sfc: see https://twitter.com/dan_abramov/status/1055689046117105664
+
+- fix: going to inexistent route -> 404 -> back is slow - why?
+
+- check for fragment <> syntax support in Jest and remove \<Fragment\> everywhere
+
 - review test coverage (e.g. status, social, router)
 - firebase files are not tested - check out [firebase-mock](https://github.com/soumak77/firebase-mock/blob/HEAD/tutorials/client/auth/authentication.md))
-- make store observe external changes in firebase (e.g. if another instance of the app is changing the same DB) - currently the store loads data from the DB only on starup
-- add reload/refresh button next to the error message for when expenses fail to load
 - add tag functionality (search by tag, tag cloud)

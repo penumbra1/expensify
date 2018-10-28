@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 
 import { HELP, DASHBOARD } from "../routers/pathNames";
 import Social from "./Social";
+import OnlineIndicator from "./OnlineIndicator";
 
 export const Header = () => (
   <header>
@@ -13,6 +14,7 @@ export const Header = () => (
       Help
     </NavLink>
     <Social />
+    <OnlineIndicator />
   </header>
 );
 

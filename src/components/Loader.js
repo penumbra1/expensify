@@ -1,21 +1,27 @@
 import React, { Fragment } from "react";
 import connect from "react-redux/lib/connect/connect";
+import shortid from "shortid";
 
-export const Loader = ({
-  loading,
-  error,
-  message,
-  onClick,
-  buttonText,
-  children
-}) => {
-  if (loading || error)
+export const Loader = ({ loading, errors, onClick, buttonText, children }) => {
+  if (loading || errors.length > 0)
     return (
       <Fragment>
-        {loading && !error && <p>Spinner goes here</p>}
-        {error && <p>Error illustration goes here</p>}
-        {message && <p>{message}</p>}
-        {error && <button onClick={onClick}>{buttonText}</button>}
+        {loading &&
+          !errors.length && (
+            <Fragment>
+              <p>Spinner goes here</p>
+              <p>Loading expenses...</p>
+            </Fragment>
+          )}
+        {!!errors.length && <p>Error illustration goes here</p>}
+        {!!errors.length && (
+          <Fragment>
+            {errors.map(error => (
+              <p key={shortid.generate()}>{error}</p>
+            ))}
+            <button onClick={onClick}>{buttonText}</button>
+          </Fragment>
+        )}
       </Fragment>
     );
   // Return null if there are no children to avoid "Nothing was returned" error

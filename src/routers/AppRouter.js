@@ -15,7 +15,6 @@ import * as pathNames from "./pathNames";
 
 const history = createHistory();
 
-// A pathless route for NavBar gives it access to location for active link styling
 const AppRouter = () => (
   <Router history={history}>
     <Fragment>

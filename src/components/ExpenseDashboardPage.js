@@ -1,15 +1,24 @@
 import React from "react";
+import { connect } from "react-redux";
+
 import ExpenseList from "./ExpenseList";
 import ExpenseListFilters from "./ExpenseListFilters";
 import ExpensesSummary from "./ExpensesSummary";
 import Loader from "./Loader";
+import { clearErrors } from "../actions/status";
+import { startLoadExpenses } from "../actions/expenses";
 
-const ExpenseDashboardPage = () => (
+export const ExpenseDashboardPage = props => (
   <Loader
     onClick={() => {
-      console.log("reload");
+      props.clearErrors();
+
+      // Sync expenses once
+      props.startLoadExpenses();
+
+      // Alternative: undo last action in redux
     }}
-    buttonText="Reload"
+    buttonText="Cancel & reload"
   >
     <ExpenseListFilters />
     <ExpensesSummary />
@@ -17,4 +26,9 @@ const ExpenseDashboardPage = () => (
   </Loader>
 );
 
-export default ExpenseDashboardPage;
+const mapDispatchToProps = { clearErrors, startLoadExpenses };
+
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(ExpenseDashboardPage);
