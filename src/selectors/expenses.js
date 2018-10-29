@@ -1,14 +1,16 @@
 import moment from "moment";
 
-export default (expenses, { text, sortBy, startDate, endDate }) => {
+const getAllExpenses = state =>
+  state.allIds.map(id => ({ id, ...state.byId[id] }));
+
+export default (state, { text, sortBy, startDate, endDate }) => {
   const sortFunction = (a, b) => {
     switch (sortBy) {
       case "amount":
         return b.amount - a.amount;
       case "date":
         return b.createdAt - a.createdAt;
-      // The store can only set sortBy to date or amount
-      // Any other case would return undefined, and sort(undefined) is alphabetic
+      // sort(undefined) is alphabetic
       default:
         return undefined;
     }
@@ -29,5 +31,7 @@ export default (expenses, { text, sortBy, startDate, endDate }) => {
     return startDateMatch && endDateMatch && textMatch;
   };
 
-  return expenses.filter(filterFunction).sort(sortFunction);
+  return getAllExpenses(state)
+    .filter(filterFunction)
+    .sort(sortFunction);
 };

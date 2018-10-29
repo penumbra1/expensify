@@ -9,7 +9,7 @@ import "./styles/styles.scss";
 import configureStore from "./store/configureStore";
 import AppRouter, { history } from "./routers/AppRouter";
 import database, { firebase } from "./firebase/firebase";
-import { setupSync, addExpense, startLoadExpenses } from "./actions/expenses";
+import { startLoadExpenses, listen } from "./actions/expenses";
 import { login, logout } from "./actions/auth";
 import { setOnline, setError } from "./actions/status";
 import { ROOT, DASHBOARD } from "./routers/pathNames";
@@ -51,10 +51,9 @@ firebase.auth().onAuthStateChanged(
 
     if (user) {
       store.dispatch(login(user.uid));
-      // Load expenses once, then add debounced listeners
-      store.dispatch(startLoadExpenses());
 
-      // store.dispatch(setupSync());
+      // store.dispatch(startLoadExpenses());
+      store.dispatch(listen());
 
       if (history.location.pathname === ROOT) history.push(DASHBOARD);
     } else {
@@ -67,8 +66,7 @@ firebase.auth().onAuthStateChanged(
       if (history.location.pathname !== ROOT) history.push(ROOT);
     }
   },
-  error =>
-    store.dispatch(setError("Please turn on network connection to log in"))
+  error => store.dispatch(setError("Please get online to log in"))
 );
 
 // /// EVENT LISTENERS

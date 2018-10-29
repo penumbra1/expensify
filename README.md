@@ -4,19 +4,21 @@ Andrew's source code is [here](https://github.com/andrewjmead/react-course-2-exp
 
 ## Code
 
+Added NavBar, Loader, HelpPage, Social, OnlineIndicator components.
+
+Added error handling, implemented optimistic UI updates via Thunk and Promise.race, and orchestrated all corresponding renders and redirects.
+
+Rewrote actions and Firebase listeners to support offline and cross-tab synchronization.
+
+Normalized expenses state: split it into an array of ids + a map by id. This allows for faster lookups and updates in response to specific events rather than reloading the entire list on every change.
+
 Changed `mapDispatchToProps` to [object syntax](https://daveceddia.com/redux-mapdispatchtoprops-object-form/) (except where ownProps are passed) to bind action creators automatically.
 
 Used React Fragments to render multiple JSX elements.
 
 Extracted hardcoded path names into reusable constants.
 
-Used [shortid](https://www.npmjs.com/package/shortid) for keys and temporary ids in optimistic UI updates.
-
-Added NavBar, Loader, HelpPage, Social, OnlineIndicator components.
-
-Added error handling and display.
-
-Implemented optimistic UI updates via Thunk and Promise.race.
+Used [shortid](https://www.npmjs.com/package/shortid) for keys in repeated error messages.
 
 \+ Lots of little performance and readability tweaks.
 
@@ -44,15 +46,9 @@ Added [optimize-css-assets-webpack-plugin](https://www.npmjs.com/package/optimiz
 
 ## TODO:
 
-- Firebase limitation: server can't push updates to slient unless there is an value listener. However, a value listener will cause a roundtrip:
-  -- 1) client state updates
-  -- 2) client sends update to firebase
-  -- 3) firebase updates 4) value listener causes client to update again
-  There is no way to see whether a change came from the current client or another app instance, so if I want to sync between different app instances, the roundtrip is inevitable. I can only avoid reloading the entire list on every single change by adding more specific child listeners.
-
-- Normalize the store: add a byId object to use for syncing and keep only the ids in the array to use for sorting/filtering
-
-- refactor ExpenseForm to pass only the updated fields in "updates" instead of rewritingthe entire expense - diff the form state against its props.expense and send up only the difference
+- refactor ExpenseForm to pass only the updated fields in "updates" instead of rewriting the entire expense - diff the form state against its props.expense and send up only the difference
+- refactor the router to avoid header rerenders (nested routes?)
+- clean up imports
 
 - Persist state to localstorage and boot from there when offline
 
@@ -65,6 +61,7 @@ Added [optimize-css-assets-webpack-plugin](https://www.npmjs.com/package/optimiz
 - switch to React 16.6 to use memo in sfc: see https://twitter.com/dan_abramov/status/1055689046117105664
 
 - fix: going to inexistent route -> 404 -> back is slow - why?
+- fix: DataPicker rerenders like crazy on text input change
 
 - check for fragment <> syntax support in Jest and remove \<Fragment\> everywhere
 

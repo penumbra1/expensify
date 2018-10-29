@@ -15,13 +15,12 @@ export const loadExpenses = expenses => ({
 
 // Utility function for snapshot callbacks
 const loadExpensesSnapshot = (dispatch, getState) => snapshot => {
-  if (!getState().status.loading) dispatch(setLoading(true));
-  const expensesList = [];
+  const expenses = {};
   snapshot.forEach(child => {
-    expensesList.push({ id: child.key, ...child.val() });
+    expenses[child.key] = child.val();
   });
 
-  dispatch(loadExpenses(expensesList));
+  dispatch(loadExpenses(expenses));
   dispatch(setLoading(false));
 };
 
@@ -30,14 +29,23 @@ export const startLoadExpenses = () => (dispatch, getState) => {
   dispatch(setLoading(true));
 
   // if (!getState().status.online) {
-  // Load from cache (localstorage?)
+  //  // Load from cache (localstorage?)
   // }
 
   const { uid } = getState().auth;
 
-  return database
-    .ref(`users/${uid}/expenses`)
-    .once("value", loadExpensesSnapshot(dispatch, getState), error => {
+  return database.ref(`users/${uid}/expenses`).once(
+    "value",
+    snapshot => {
+      const expenses = {};
+      snapshot.forEach(child => {
+        expenses[child.key] = child.val();
+      });
+
+      dispatch(loadExpenses(expenses));
+      dispatch(setLoading(false));
+    },
+    error => {
       // Server error, e.g. permission denied
       dispatch(
         setError(
@@ -45,19 +53,20 @@ export const startLoadExpenses = () => (dispatch, getState) => {
         )
       );
       console.error("Failed to load expenses\n", error);
-    });
+    }
+  );
 };
 
-// Utility function that returns a given promise if it resolves fast enough,
-// or calls the given function on timeout
-const race = (func, promise) => {
+// Utility function that returns the result of a promise if it's fast enough
+// or resolves after a timeout
+const race = promise => {
   const optimistic = new Promise(resolve => {
     setTimeout(() => {
-      resolve(func());
-    }, 500);
+      resolve();
+    }, 1000);
   });
 
-  return Promise.race([optimistic, promise]);
+  return Promise.race([optimistic, promise]).catch(e => console.error(e));
 };
 
 // Utility function for Firebase error callbacks
@@ -73,39 +82,34 @@ const handleError = (message, dispatch) => error => {
  * EDITING EXPENSES
  */
 
-export const editExpense = (id, updates) => ({
+export const editExpense = (id, data) => ({
   type: "EDIT_EXPENSE",
   id,
-  updates
+  data
 });
 
 export const startEditExpense = (id, updates = {}) => (dispatch, getState) => {
-  const optimistic = () => dispatch(editExpense(id, updates));
-
   const fromDatabase = database
     .ref(`users/${getState().auth.uid}/expenses/${id}`)
     .update(
       updates,
-      handleError("Ouch, failed to register these changes.", dispatch)
+      handleError("Ouch, failed to update this expense.", dispatch)
     );
 
-  return race(optimistic, fromDatabase).catch(e =>
-    console.error("Failed to update expense\n", e)
-  );
+  return race(fromDatabase);
 };
 
 /*
  * ADDING EXPENSES
  */
 
-export const addExpense = expense => ({
+export const addExpense = (id, data) => ({
   type: "ADD_EXPENSE",
-  expense
+  id,
+  data
 });
 
 export const startAddExpense = (expenseData = {}) => (dispatch, getState) => {
-  // Optimistic add will use a temporary id
-  const id = shortid.generate();
   const {
     description = "",
     note = "",
@@ -114,19 +118,11 @@ export const startAddExpense = (expenseData = {}) => (dispatch, getState) => {
   } = expenseData;
   const expense = { description, note, amount, createdAt };
 
-  const optimistic = () => dispatch(addExpense({ ...expense, id }));
-
   const fromDatabase = database
     .ref(`users/${getState().auth.uid}/expenses`)
-    .push(expense, handleError("Ouch, failed to add this expense.", dispatch))
-    .then(data =>
-      // Update temporary id to the one returned from Firebase
-      dispatch(editExpense(id, { id: data.key }))
-    );
+    .push(expense, handleError("Ouch, failed to add this expense.", dispatch));
 
-  return race(optimistic, fromDatabase).catch(e =>
-    console.error("Failed to add expense\n", e)
-  );
+  return race(fromDatabase);
 };
 
 /*
@@ -139,48 +135,36 @@ export const removeExpense = id => ({
 });
 
 export const startRemoveExpense = id => (dispatch, getState) => {
-  const optimistic = () => dispatch(removeExpense(id));
-
   const fromDatabase = database
     .ref(`users/${getState().auth.uid}/expenses/${id}`)
     .remove(handleError("Ouch, failed to remove this expense.", dispatch));
 
-  return race(optimistic, fromDatabase).catch(e =>
-    console.error("Failed to remove expense\n", e)
-  );
+  return race(fromDatabase);
 };
 
 /*
  * SYNCING EXPENSES
  */
 
-// Note: this adds an event listener and should be run once when a user logs in
-// Callbacks are inevitable as .on() doesn't return a Promise
-export const setupSync = () => (dispatch, getState) => {
-  dispatch(setLoading(true));
+export const listen = () => (dispatch, getState) => {
+  const ref = database.ref(`users/${getState().auth.uid}/expenses`);
 
-  const { uid } = getState().auth;
+  const onError = handleError(
+    "Ouch, looks like you're not allowed to see these expenses.",
+    dispatch
+  );
 
-  return database
-    .ref(`users/${uid}/expenses`)
-    .on("value", loadExpensesSnapshot, error => {
-      dispatch(
-        setError(
-          "Ouch, looks like you're not allowed to see these expenses.\nPlease reach out to us if something went wrong here"
-        )
-      );
-      console.error(error);
-    });
-  // const onAdd = database.ref(`users/${uid}/expenses`).on(
-  //   "child_added",
-  //   child => dispatch(addExpense({ id: child.key, ...child.val() })),
-  //   error => {
-  //     dispatch(
-  //       setError(
-  //         "Ouch, looks like you're not allowed to see these expenses.\nPlease reach out to us if something went wrong here"
-  //       )
-  //     );
-  //     console.error(error);
-  //   }
-  // );
+  ref.on(
+    "child_added",
+    data => dispatch(addExpense(data.key, data.val())),
+    onError
+  );
+
+  ref.on(
+    "child_changed",
+    data => dispatch(editExpense(data.key, data.val())),
+    onError
+  );
+
+  ref.on("child_removed", data => dispatch(removeExpense(data.key)), onError);
 };

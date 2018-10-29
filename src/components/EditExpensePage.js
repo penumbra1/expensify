@@ -5,29 +5,32 @@ import NotFoundPage from "./NotFoundPage";
 import { startEditExpense, startRemoveExpense } from "../actions/expenses";
 import { DASHBOARD } from "../routers/pathNames";
 
-// Export the unconnected component as well for testing
-// independently from Redux and dispatch (with spies instead of prop methods)
 export class EditExpensePage extends Component {
+  // "Cache" the expense in state to avoid a form rerender
+  // and a flash of 404 page if the expense is removed
+  state = { expense: this.props.expense };
+
   goBack = () => this.props.history.push(DASHBOARD);
 
   onSubmit = updates => {
     this.props
-      .startEditExpense(this.props.expense.id, updates)
+      .startEditExpense(this.props.match.params.id, updates)
       .then(this.goBack);
   };
 
   onRemove = () => {
-    this.props.startRemoveExpense(this.props.expense.id).then(this.goBack);
+    this.setState({ justRemoved: true });
+    this.props.startRemoveExpense(this.props.match.params.id).then(this.goBack);
   };
 
   render() {
-    // Redirect to 404 page if no expense was found (URL or id incorrect)
-    if (!this.props.expense) {
+    // Redirect to 404 page only if the id wasn't found
+    if (!this.state.expense) {
       return <NotFoundPage history={this.props.history} />;
     }
     return (
       <Fragment>
-        <ExpenseForm expense={this.props.expense} onSubmit={this.onSubmit} />
+        <ExpenseForm expense={this.state.expense} onSubmit={this.onSubmit} />
         <button onClick={this.onRemove}>Remove</button>
         <button onClick={this.goBack}>Cancel</button>
       </Fragment>
@@ -36,7 +39,7 @@ export class EditExpensePage extends Component {
 }
 
 export const mapStateToProps = (state, props) => ({
-  expense: state.expenses.find(expense => expense.id === props.match.params.id)
+  expense: state.expenses.byId[props.match.params.id]
 });
 
 const mapDispatchToProps = {

@@ -2,7 +2,15 @@ import React, { Fragment } from "react";
 import connect from "react-redux/lib/connect/connect";
 import shortid from "shortid";
 
-export const Loader = ({ loading, errors, onClick, buttonText, children }) => {
+import { clearErrors } from "../actions/status";
+
+export const Loader = ({
+  loading,
+  errors,
+  clearErrors,
+  buttonText,
+  children
+}) => {
   if (loading || errors.length > 0)
     return (
       <Fragment>
@@ -19,7 +27,7 @@ export const Loader = ({ loading, errors, onClick, buttonText, children }) => {
             {errors.map(error => (
               <p key={shortid.generate()}>{error}</p>
             ))}
-            <button onClick={onClick}>{buttonText}</button>
+            <button onClick={clearErrors}>Cancel & reload</button>
           </Fragment>
         )}
       </Fragment>
@@ -29,5 +37,9 @@ export const Loader = ({ loading, errors, onClick, buttonText, children }) => {
 };
 
 const mapStateToProps = ({ status }) => status;
+const mapDispatchToProps = { clearErrors };
 
-export default connect(mapStateToProps)(Loader);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Loader);
