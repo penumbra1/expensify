@@ -1,7 +1,5 @@
 const webpack = require("webpack");
 const path = require("path");
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-  .BundleAnalyzerPlugin;
 
 module.exports = {
   entry: ["@babel/polyfill", "./src/app.js"],
@@ -27,7 +25,6 @@ module.exports = {
       "FIREBASE_STORAGE_BUCKET",
       "FIREBASE_MESSAGING_SENDER_ID"
     ]),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    new BundleAnalyzerPlugin({ openAnalyzer: false })
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
   ]
 };

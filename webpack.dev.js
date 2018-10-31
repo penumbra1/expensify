@@ -1,6 +1,8 @@
 const merge = require("webpack-merge");
 const path = require("path");
 const common = require("./webpack.common.js");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin;
 
 module.exports = merge(common, {
   mode: "development",
@@ -16,6 +18,7 @@ module.exports = merge(common, {
       }
     ]
   },
+  plugins: [new BundleAnalyzerPlugin({ openAnalyzer: false })],
   devtool: "cheap-module-eval-source-map",
   devServer: {
     contentBase: path.join(__dirname, "public"),
