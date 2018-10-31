@@ -18,8 +18,6 @@ Used React Fragments to render multiple JSX elements.
 
 Extracted hardcoded path names into reusable constants.
 
-Used [shortid](https://www.npmjs.com/package/shortid) for keys in repeated error messages.
-
 \+ Lots of little performance and readability tweaks.
 
 ## Testing
@@ -34,11 +32,15 @@ Removed `"setupFiles": ["raf/polyfill"]` from Jest config: Jest [now ships with 
 
 Switched to npm.
 
+Migrated to Babel 7 and added browser targets as recommended [here](https://github.com/browserslist/browserslist#best-practices) and [here](https://github.com/gatsbyjs/gatsby/pull/5114).
+
 Separated config into 3 files merged with _webpack-merge_.
 
-Used the latest version of webpack to automatically define process.env.NODE_ENV === 'production' and [drop production bundle size](https://webpack.js.org/guides/production/#specify-the-mode). Production sourcemap also got much lighter (2.12Mb vs. 4.71Mb).
+Upgraded to webpack 4 for automatic minification and [automatic define config for production mode](https://webpack.js.org/guides/production/#specify-the-mode). Production sourcemap also got much lighter (2.12Mb vs. 4.71Mb).
 
 Used [env-cmd](https://www.npmjs.com/package/env-cmd) instead of [cross-env](https://www.npmjs.com/package/cross-env) + [dotenv](https://www.npmjs.com/package/dotenv) for loading environment variables.
+
+Removed locales from moment as the app is English-only (saved 382K).
 
 Switched to newer _mini-css-extract-plugin_: see [issue](https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/749). Separated CSS into _styles.css_ in production but kept it in _bundle.js_ in development for hot reloading.
 
@@ -47,24 +49,28 @@ Added [optimize-css-assets-webpack-plugin](https://www.npmjs.com/package/optimiz
 ## TODO:
 
 - refactor ExpenseForm to pass only the updated fields in "updates" instead of rewriting the entire expense - diff the form state against its props.expense and send up only the difference
-- refactor the router to avoid header rerenders (nested routes?)
+- refactor the router to avoid header rerenders ([nested routes?](https://tylermcginnis.com/react-router-nested-routes/))
 - clean up imports
 
 - Persist state to localstorage and boot from there when offline
+- retry/export failed updates functionality
 
+- ditch react-dates (427.77K) for Grommet dropdown date picker
 - add social media icons, spinner, error pic
 - styles - Grommet?
 - stats page visualized with Grommet?
--
-- switch to Babel 7
+
 - refactor to React.PureComponent where possible
 - switch to React 16.6 to use memo in sfc: see https://twitter.com/dan_abramov/status/1055689046117105664
 
 - fix: going to inexistent route -> 404 -> back is slow - why?
-- fix: DataPicker rerenders like crazy on text input change
 
 - check for fragment <> syntax support in Jest and remove \<Fragment\> everywhere
 
 - review test coverage (e.g. status, social, router)
 - firebase files are not tested - check out [firebase-mock](https://github.com/soumak77/firebase-mock/blob/HEAD/tutorials/client/auth/authentication.md))
+
 - add tag functionality (search by tag, tag cloud)
+- add file attachments (receipts, screenshots etc.)
+
+- optimize bundle size: included bundle analyzer already

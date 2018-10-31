@@ -9,7 +9,3 @@ export const setError = error => ({
   type: "SET_ERROR",
   error
 });
-
-export const clearErrors = () => ({
-  type: "CLEAR_ERRORS"
-});

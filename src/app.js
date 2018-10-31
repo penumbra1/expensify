@@ -9,7 +9,7 @@ import "./styles/styles.scss";
 import configureStore from "./store/configureStore";
 import AppRouter, { history } from "./routers/AppRouter";
 import database, { firebase } from "./firebase/firebase";
-import { startLoadExpenses, listen } from "./actions/expenses";
+import { listen } from "./actions/expenses";
 import { login, logout } from "./actions/auth";
 import { setOnline, setError } from "./actions/status";
 import { ROOT, DASHBOARD } from "./routers/pathNames";
@@ -24,7 +24,16 @@ const app = (
 
 const root = document.getElementById("app");
 
-// Avoid unnecessary rerenders on first load
+// Connection change listener
+database.ref(".info/connected").on("value", snap => {
+  if (!snap.val()) {
+    store.dispatch(setOnline(false));
+  } else {
+    store.dispatch(setOnline(true));
+  }
+});
+
+// Render the app once on first auth state change
 let hasRendered = false;
 const renderApp = () => {
   if (!hasRendered) {
@@ -33,26 +42,13 @@ const renderApp = () => {
   }
 };
 
-// Connection change listener
-database.ref(".info/connected").on("value", snap => {
-  if (!snap.val()) {
-    // No connection on the client side
-    store.dispatch(setOnline(false));
-  } else {
-    store.dispatch(setOnline(true));
-    // TODO: Reload expenses if connection is reestablished and the user is logged in
-  }
-});
-
 firebase.auth().onAuthStateChanged(
   user => {
-    // Render here to avoid flash of login page on first load
     renderApp();
 
     if (user) {
       store.dispatch(login(user.uid));
 
-      // store.dispatch(startLoadExpenses());
       store.dispatch(listen());
 
       if (history.location.pathname === ROOT) history.push(DASHBOARD);
@@ -66,12 +62,12 @@ firebase.auth().onAuthStateChanged(
       if (history.location.pathname !== ROOT) history.push(ROOT);
     }
   },
-  error => store.dispatch(setError("Please get online to log in"))
+  error => {
+    store.dispatch(
+      setError(
+        "Failed to log you in. Please check your connection and try again."
+      )
+    );
+    console.error(error);
+  }
 );
-
-// /// EVENT LISTENERS
-// const setupListeners = () => {
-//   database.ref(`users/${uid}/expenses`).on("child_added", child => {
-//     store.dispatch(addExpense());
-//   });
-// };

@@ -1,11 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import shortid from "shortid";
 
 import ExpenseListItem from "./ExpenseListItem";
 import selectExpenses from "../selectors/expenses";
 
-export const ExpenseList = ({ expenses }) =>
+export const ExpenseList = ({ expenses, loading }) =>
   expenses.length === 0 ? (
     <p>No expenses</p>
   ) : (
@@ -13,7 +12,8 @@ export const ExpenseList = ({ expenses }) =>
   );
 
 export const mapStateToProps = state => ({
-  expenses: selectExpenses(state.expenses, state.filters)
+  expenses: selectExpenses(state.expenses, state.filters),
+  loading: state.status.loading
 });
 
 export default connect(mapStateToProps)(ExpenseList);

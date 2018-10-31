@@ -19,12 +19,11 @@ export class EditExpensePage extends Component {
   };
 
   onRemove = () => {
-    this.setState({ justRemoved: true });
     this.props.startRemoveExpense(this.props.match.params.id).then(this.goBack);
   };
 
   render() {
-    // Redirect to 404 page only if the id wasn't found
+    // Redirect to 404 page only if the initial id wasn't found
     if (!this.state.expense) {
       return <NotFoundPage history={this.props.history} />;
     }

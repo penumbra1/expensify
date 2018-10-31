@@ -1,7 +1,7 @@
 const statusDefaultState = {
   online: false,
   loading: false,
-  errors: []
+  error: null
 };
 
 export default (state = statusDefaultState, action) => {
@@ -12,9 +12,9 @@ export default (state = statusDefaultState, action) => {
     case "SET_LOADING":
       return { ...state, loading };
     case "SET_ERROR":
-      return { ...state, errors: [...state.errors, error] };
-    case "CLEAR_ERRORS":
-      return { ...state, errors: [] };
+      return { ...state, error };
+    case "CLEAR_ERROR":
+      return { ...state, error: null };
     default:
       return state;
   }

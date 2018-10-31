@@ -1,11 +1,11 @@
 import { firebase, googleAuthProvider } from "../firebase/firebase";
-import { setError, clearErrors } from "./status";
+import { setError } from "./status";
 
 export const login = uid => ({ type: "LOGIN", uid });
 
 export const startLogin = () => dispatch => {
-  // Clear errors from previous logins
-  dispatch(clearErrors);
+  // Clear the previous login error
+  dispatch(setError(null));
 
   return firebase
     .auth()

@@ -1,43 +1,38 @@
 import React, { Fragment } from "react";
 import connect from "react-redux/lib/connect/connect";
-import shortid from "shortid";
 
-import { clearErrors } from "../actions/status";
+import { setError } from "../actions/status";
 
-export const Loader = ({
-  loading,
-  errors,
-  clearErrors,
-  buttonText,
-  children
-}) => {
-  if (loading || errors.length > 0)
+export const Loader = ({ loading, error, cancel, children }) => {
+  if (loading || error) {
     return (
       <Fragment>
         {loading &&
-          !errors.length && (
+          !error && (
             <Fragment>
               <p>Spinner goes here</p>
               <p>Loading expenses...</p>
             </Fragment>
           )}
-        {!!errors.length && <p>Error illustration goes here</p>}
-        {!!errors.length && (
+        {error && (
           <Fragment>
-            {errors.map(error => (
-              <p key={shortid.generate()}>{error}</p>
-            ))}
-            <button onClick={clearErrors}>Cancel & reload</button>
+            <p>Error illustration goes here</p>
+            {error}
+            <button onClick={cancel}>Got it, go back</button>
           </Fragment>
         )}
       </Fragment>
     );
+  }
   // Return null if there are no children to avoid "Nothing was returned" error
   return children || null;
 };
 
-const mapStateToProps = ({ status }) => status;
-const mapDispatchToProps = { clearErrors };
+const mapStateToProps = ({ status: { loading, error } }) => ({
+  loading,
+  error
+});
+const mapDispatchToProps = { cancel: () => setError(null) };
 
 export default connect(
   mapStateToProps,
