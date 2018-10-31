@@ -3,4 +3,4 @@ dist/
 coverage/
 src/playground/
 src/tests/.env
-.env
+/.env
