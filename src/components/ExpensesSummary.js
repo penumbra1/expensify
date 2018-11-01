@@ -16,8 +16,8 @@ export const ExpensesSummary = ({ expenseCount, expenseTotal }) => (
   </Fragment>
 );
 
-export const mapStateToProps = state => {
-  const expenses = selectExpenses(state.expenses, state.filters);
+export const mapStateToProps = ({ session }) => {
+  const expenses = selectExpenses(session.expenses, session.filters);
   return {
     expenseCount: expenses.length,
     expenseTotal: getExpenseTotal(expenses)

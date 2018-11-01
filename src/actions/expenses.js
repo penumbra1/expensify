@@ -1,5 +1,5 @@
 import database from "../firebase/firebase";
-import { setLoading, setError } from "./status";
+import { setError } from "./status";
 
 // Utility function that returns the result of a promise if it's fast enough
 // or resolves after a timeout
@@ -45,7 +45,7 @@ export const startAddExpense = (expenseData = {}) => (dispatch, getState) => {
   const expense = { description, note, amount, createdAt };
 
   const fromDatabase = database
-    .ref(`users/${getState().auth.uid}/expenses`)
+    .ref(`users/${getState().session.auth.uid}/expenses`)
     .push(expense, handleError(dispatch));
 
   return race(fromDatabase);
@@ -63,7 +63,7 @@ export const editExpense = (id, data) => ({
 
 export const startEditExpense = (id, updates = {}) => (dispatch, getState) => {
   const fromDatabase = database
-    .ref(`users/${getState().auth.uid}/expenses/${id}`)
+    .ref(`users/${getState().session.auth.uid}/expenses/${id}`)
     .update(updates, handleError(dispatch));
 
   return race(fromDatabase);
@@ -80,7 +80,7 @@ export const removeExpense = id => ({
 
 export const startRemoveExpense = id => (dispatch, getState) => {
   const fromDatabase = database
-    .ref(`users/${getState().auth.uid}/expenses/${id}`)
+    .ref(`users/${getState().session.auth.uid}/expenses/${id}`)
     .remove(handleError(dispatch));
 
   return race(fromDatabase);
@@ -90,10 +90,8 @@ export const startRemoveExpense = id => (dispatch, getState) => {
  * SYNCING EXPENSES
  */
 
-export const listen = () => (dispatch, getState) => {
-  dispatch(setLoading(true));
-
-  const ref = database.ref(`users/${getState().auth.uid}/expenses`);
+export const startListening = uid => dispatch => {
+  const ref = database.ref(`users/${uid}/expenses`);
 
   const onError = handleError(
     dispatch,
@@ -116,9 +114,11 @@ export const listen = () => (dispatch, getState) => {
 
   // This will fire right after initial expenses are loaded
   // https://stackoverflow.com/questions/27978078
-  ref.once(
-    "value",
-    () => dispatch(setLoading(false)),
-    () => dispatch(setLoading(false))
+  return ref.once("value", snap =>
+    console.log(snap.val(), () => console.log("failed to listen"))
   );
+
+  // If initially offline, it will boot from localstorage => gotta return a promise for that as well
 };
+
+export const stopListening = uid => database.ref(`users/${uid}/expenses`).off();

@@ -7,6 +7,8 @@ import { DASHBOARD } from "./pathNames";
 const PublicRoute = ({ isAuthenticated, ...props }) =>
   isAuthenticated ? <Redirect to={DASHBOARD} /> : <Route {...props} />;
 
-const mapStateToProps = state => ({ isAuthenticated: !!state.auth.uid });
+const mapStateToProps = ({ session }) => ({
+  isAuthenticated: !!session.auth.uid
+});
 
 export default connect(mapStateToProps)(PublicRoute);

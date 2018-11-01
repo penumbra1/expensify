@@ -28,9 +28,9 @@ export const Loader = ({ loading, error, cancel, children }) => {
   return children || null;
 };
 
-const mapStateToProps = ({ status: { loading, error } }) => ({
-  loading,
-  error
+const mapStateToProps = ({ session: { status } }) => ({
+  loading: status.loading,
+  error: status.error
 });
 const mapDispatchToProps = { cancel: () => setError(null) };
 

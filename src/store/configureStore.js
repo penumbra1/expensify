@@ -1,22 +1,14 @@
-import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import expensesReducer from "../reducers/expenses";
-import filtersReducer from "../reducers/filters";
-import authReducer from "../reducers/auth";
-import statusReducer from "../reducers/status";
+import { composeWithDevTools } from "redux-devtools-extension";
 
-/* eslint-disable no-underscore-dangle */
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-/* eslint-enable */
+import rootReducer from "../reducers/root";
 
-const reducer = combineReducers({
-  expenses: expensesReducer,
-  filters: filtersReducer,
-  auth: authReducer,
-  status: statusReducer
-});
+const composedEnhancers = composeWithDevTools(applyMiddleware(thunk));
 
-export default () => {
-  const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
-  return store;
-};
+// Load initial state from localStorage as argument here - or in auth listener?
+const preloadedState = undefined;
+
+const store = createStore(rootReducer, preloadedState, composedEnhancers);
+
+export default store;

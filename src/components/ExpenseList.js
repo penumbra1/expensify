@@ -11,9 +11,9 @@ export const ExpenseList = ({ expenses, loading }) =>
     expenses.map(expense => <ExpenseListItem {...expense} key={expense.id} />)
   );
 
-export const mapStateToProps = state => ({
-  expenses: selectExpenses(state.expenses, state.filters),
-  loading: state.status.loading
+export const mapStateToProps = ({ session }) => ({
+  expenses: selectExpenses(session.expenses, session.filters),
+  loading: session.status.loading
 });
 
 export default connect(mapStateToProps)(ExpenseList);

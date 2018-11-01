@@ -1,10 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 
-export const OnlineIndicator = props => (
-  <span>{props.online ? "Online" : "Offline"}</span>
-);
+export const OnlineIndicator = props =>
+  props.online !== null && <span>{props.online ? "Online" : "Offline"}</span>;
 
-const mapStateToProps = ({ status: { online } }) => ({ online });
+const mapStateToProps = ({ online }) => ({ online });
 
 export default connect(mapStateToProps)(OnlineIndicator);

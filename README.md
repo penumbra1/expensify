@@ -48,11 +48,14 @@ Added [optimize-css-assets-webpack-plugin](https://www.npmjs.com/package/optimiz
 
 ## TODO:
 
+- FIX: clear state when logging out as duplicates appear if logging in with the same user. Reset state on logout: https://stackoverflow.com/questions/35622588 (also useful for clearing local storage)
+- FIX: failed sign-in (account disabled) shouldn't show a log-in button
+
 - refactor ExpenseForm to pass only the updated fields in "updates" instead of rewriting the entire expense - diff the form state against its props.expense and send up only the difference
 - refactor the router to avoid header rerenders ([nested routes?](https://tylermcginnis.com/react-router-nested-routes/))
 - clean up imports
 
-- Persist state to localstorage and boot from there when offline
+- Persist state to localstorage and boot from there when offline (see preloadedState argument of createStore)
 - retry/export failed updates functionality
 
 - ditch react-dates (427.77K) for Grommet dropdown date picker
@@ -70,6 +73,7 @@ Added [optimize-css-assets-webpack-plugin](https://www.npmjs.com/package/optimiz
 - review test coverage (e.g. status, social, router)
 - firebase files are not tested - check out [firebase-mock](https://github.com/soumak77/firebase-mock/blob/HEAD/tutorials/client/auth/authentication.md))
 
+- clear text filter button
 - add tag functionality (search by tag, tag cloud)
 - add file attachments (receipts, screenshots etc.)
 

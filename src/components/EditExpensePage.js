@@ -37,8 +37,8 @@ export class EditExpensePage extends Component {
   }
 }
 
-export const mapStateToProps = (state, props) => ({
-  expense: state.expenses.byId[props.match.params.id]
+export const mapStateToProps = ({ session }, props) => ({
+  expense: session.expenses.byId[props.match.params.id]
 });
 
 const mapDispatchToProps = {

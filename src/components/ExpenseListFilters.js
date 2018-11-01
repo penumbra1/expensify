@@ -59,8 +59,8 @@ export class ExpenseListFilters extends Component {
   }
 }
 
-export const mapStateToProps = state => ({
-  filters: state.filters
+export const mapStateToProps = ({ session }) => ({
+  filters: session.filters
 });
 
 const mapDispatchToProps = { ...filterActions };

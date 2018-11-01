@@ -4,10 +4,9 @@ import { startLogin } from "../actions/auth";
 import Loader from "./Loader";
 
 export const LoginPage = props => (
-  <Fragment>
-    <Loader />
+  <Loader>
     <button onClick={props.startLogin}>Log in</button>
-  </Fragment>
+  </Loader>
 );
 
 const mapDispatchToProps = { startLogin };

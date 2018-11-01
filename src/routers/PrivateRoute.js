@@ -10,13 +10,20 @@ const PrivateRoute = ({ isAuthenticated, ...props }) =>
   isAuthenticated ? (
     <Fragment>
       <NavBar />
-      <button onClick={startLogout}>Log out</button>
+      <button onClick={props.startLogout}>Log out</button>
       <Route {...props} />
     </Fragment>
   ) : (
     <Redirect to={ROOT} />
   );
 
-const mapStateToProps = state => ({ isAuthenticated: !!state.auth.uid });
+const mapStateToProps = ({ session }) => ({
+  isAuthenticated: !!session.auth.uid
+});
 
-export default connect(mapStateToProps)(PrivateRoute);
+const mapDispatchToProps = { startLogout };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PrivateRoute);
