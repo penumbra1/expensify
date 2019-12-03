@@ -4,6 +4,8 @@ Andrew's source code is [here](https://github.com/andrewjmead/react-course-2-exp
 
 ## Code
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/penumbra1/expensify.svg)](https://greenkeeper.io/)
+
 Added NavBar, Loader, HelpPage, Social, OnlineIndicator components.
 
 Added error handling, implemented optimistic UI updates via Thunk and Promise.race, and orchestrated all corresponding renders and redirects.
